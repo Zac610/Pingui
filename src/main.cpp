@@ -59,7 +59,7 @@ public:
 		border(0);
 	}
 
-	int MovingWindows::handle(int e)
+	int handle(int e)
 	{
 		int ret = 0;
 		static int xoff = 0, yoff = 0;	// (or put these in the class)
@@ -96,17 +96,7 @@ MovingWindows* window;
 extern "C" void* thPingNode(void * nodeId);
 
 
-int _wopen(
-	_In_z_ wchar_t const* _FileName,
-	_In_   int            _OFlag,
-	_In_   int            _PMode = 0
-)
-{
-	int _FileHandle;
-	// Last parameter passed as 0 because we don't want to validate pmode from _open
-	errno_t const _Result = _wsopen_dispatch(_FileName, _OFlag, _SH_DENYNO, _PMode, &_FileHandle, 0);
-	return _Result ? -1 : _FileHandle;
-}
+//#include <corecrt_wio.h>
 
 class NodeBox : public Fl_Box
 {
@@ -115,7 +105,7 @@ private:
 public:
 	NodeBox(unsigned i) :Fl_Box(0, (i + 1)* ALTEZZA_CARATTERI, LARGHEZZA_NOME_NODO, ALTEZZA_CARATTERI, nodeList[i].ip.c_str()), m_index(i) {}
 
-	int NodeBox::handle(int e)
+	int handle(int e)
 	{
 		int ret = 0;
 		static int xoff = 0, yoff = 0;	// (or put these in the class)
@@ -179,7 +169,7 @@ Status pingNode(unsigned nodeId)
 	// Allocate space for at a single reply
 	ReplySize = sizeof(ICMP_ECHO_REPLY) + sizeof(SendData) + 8;
 	ReplyBuffer = (VOID*)malloc(ReplySize);
-	if (ReplyBuffer == NULL) 
+	if (ReplyBuffer == NULL)
 		return Status::DOWN;
 
 	dwRetVal = IcmpSendEcho2(hIcmpFile, NULL, NULL, NULL,
@@ -239,7 +229,7 @@ bool getNameFromIp(string ip, string& name) {
 
 extern "C" void* thPingNode(void *p)
 {
-	unsigned nodeId = (unsigned)p;
+	unsigned nodeId = reinterpret_cast<unsigned>(p);
 	nodeList[nodeId].nodeName = nodeList[nodeId].ip;
 
 	Status nodeStatus = pingNode(nodeId);
@@ -328,7 +318,15 @@ int main(int argc, TCHAR* argv[])
 			{
 				if (str[0] != '#')
 				{
-					str.erase(remove_if(str.begin(), str.end(), isNotAlnum), str.end());
+					unsigned pos = 0;
+					while (isNotAlnum(str[pos]))
+					{
+						pos++;
+						if (pos >= str.length())
+							break;
+					}
+
+					str.erase(0, pos);
 					NodeStatus node(str);
 					nodeList.push_back(node);
 				}
