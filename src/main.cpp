@@ -1,4 +1,4 @@
-﻿#include <winsock2.h>
+#include <winsock2.h>
 #include <iphlpapi.h>
 #include <icmpapi.h>
 #include <WS2tcpip.h>
@@ -9,6 +9,7 @@
 #include <FL/Fl_Box.H>
 #include <FL/x.H>
 #include <FL/fl_ask.H>
+#include <FL/FL_ToolTip.H>
 
 #include <fstream>
 #include <sstream>
@@ -53,42 +54,42 @@ Fl_Box* debugBox;
 
 class MovingWindows : public Fl_Window
 {
-public:
-	MovingWindows(int w, int h) : Fl_Window(w, h)
-	{
-		border(0);
-	}
-
-	int handle(int e)
-	{
-		int ret = 0;
-		static int xoff = 0, yoff = 0;	// (or put these in the class)
-		ret = Fl_Window::handle(e);
-		switch (e)
+	public:
+		MovingWindows(int w, int h) : Fl_Window(w, h)
 		{
-			// DOWNCLICK IN WINDOW CREATES CURSOR OFFSETS
-		case FL_PUSH:
-
-			if (Fl::event_button() == FL_RIGHT_MOUSE)
-				if (fl_ask("Are you sure you want to quit?"))
-					exit(0);
-
-			xoff = x() - Fl::event_x_root();
-			yoff = y() - Fl::event_y_root();
-			ret = 1;
-
-		case FL_DRAG:
-			// DRAG THE WINDOW AROUND THE SCREEN
-			position(xoff + Fl::event_x_root(), yoff + Fl::event_y_root());
-			redraw();
-			ret = 1;
-
-		case FL_RELEASE:
-			show();             // raise
-			ret = 1;
+			border(0);
 		}
-		return(ret);
-	}
+
+		int handle(int e)
+		{
+			int ret = 0;
+			static int xoff = 0, yoff = 0;	// (or put these in the class)
+			ret = Fl_Window::handle(e);
+			switch (e)
+			{
+				// DOWNCLICK IN WINDOW CREATES CURSOR OFFSETS
+				case FL_PUSH:
+
+					if (Fl::event_button() == FL_RIGHT_MOUSE)
+						if (fl_ask("Are you sure you want to quit?"))
+							exit(0);
+
+					xoff = x() - Fl::event_x_root();
+					yoff = y() - Fl::event_y_root();
+					ret = 1;
+
+				case FL_DRAG:
+					// DRAG THE WINDOW AROUND THE SCREEN
+					position(xoff + Fl::event_x_root(), yoff + Fl::event_y_root());
+					redraw();
+					ret = 1;
+
+				case FL_RELEASE:
+					show();             // raise
+					ret = 1;
+			}
+			return(ret);
+		}
 };
 
 MovingWindows* window;
@@ -100,31 +101,31 @@ extern "C" void* thPingNode(void * nodeId);
 
 class NodeBox : public Fl_Box
 {
-private:
-	unsigned m_index;
-public:
-	NodeBox(unsigned i) :Fl_Box(0, (i + 1)* ALTEZZA_CARATTERI, LARGHEZZA_NOME_NODO, ALTEZZA_CARATTERI, nodeList[i].ip.c_str()), m_index(i) {}
+	private:
+		unsigned m_index;
+	public:
+		NodeBox(unsigned i) :Fl_Box(0, (i + 1)* ALTEZZA_CARATTERI, LARGHEZZA_NOME_NODO, ALTEZZA_CARATTERI, nodeList[i].ip.c_str()), m_index(i) {}
 
-	int handle(int e)
-	{
-		int ret = 0;
-		static int xoff = 0, yoff = 0;	// (or put these in the class)
-		ret = Fl_Box::handle(e);
-		switch (e)
+		int handle(int e)
 		{
-		case FL_PUSH:
-			int doubleClick = Fl::event_clicks();
-			if (doubleClick)
+			int ret = 0;
+			static int xoff = 0, yoff = 0;	// (or put these in the class)
+			ret = Fl_Box::handle(e);
+			switch (e)
 			{
-				color(FL_YELLOW);
-				fl_create_thread(prime_thread, thPingNode, (void *)m_index);
+				case FL_PUSH:
+					int doubleClick = Fl::event_clicks();
+					if (doubleClick)
+					{
+						color(FL_YELLOW);
+						fl_create_thread(prime_thread, thPingNode, (void *)m_index);
 
-				//thread* myThPingNode = new thread(thPingNode, m_index);
+						//thread* myThPingNode = new thread(thPingNode, m_index);
+					}
+					//ret = 1;
 			}
-			//ret = 1;
+			return(ret);
 		}
-		return(ret);
-	}
 
 };
 
@@ -173,22 +174,24 @@ Status pingNode(unsigned nodeId)
 		return Status::DOWN;
 
 	dwRetVal = IcmpSendEcho2(hIcmpFile, NULL, NULL, NULL,
-		ipaddr, SendData, sizeof(SendData), NULL,
-		ReplyBuffer, ReplySize, 1000);
-	if (dwRetVal != 0) {
+													 ipaddr, SendData, sizeof(SendData), NULL,
+													 ReplyBuffer, ReplySize, 1000);
+	if (dwRetVal != 0)
+	{
 		PICMP_ECHO_REPLY pEchoReply = (PICMP_ECHO_REPLY)ReplyBuffer;
 		struct in_addr ReplyAddr;
 		ReplyAddr.S_un.S_addr = pEchoReply->Address;
 
 		Status retVal = Status::DOWN;
-		switch (pEchoReply->Status) {
-		case IP_DEST_HOST_UNREACHABLE:
-		case IP_DEST_NET_UNREACHABLE:
-		case IP_REQ_TIMED_OUT:
-			retVal = Status::DOWN;
-		default:
-			retVal = Status::UP;
-			break;
+		switch (pEchoReply->Status)
+		{
+			case IP_DEST_HOST_UNREACHABLE:
+			case IP_DEST_NET_UNREACHABLE:
+			case IP_REQ_TIMED_OUT:
+				retVal = Status::DOWN;
+			default:
+				retVal = Status::UP;
+				break;
 		}
 
 		return retVal;
@@ -197,7 +200,8 @@ Status pingNode(unsigned nodeId)
 		return Status::DOWN;
 }
 
-bool getNameFromIp(string ip, string& name) {
+bool getNameFromIp(string ip, string& name)
+{
 	struct addrinfo    hints;
 	struct addrinfo* res = 0;
 	int       status;
@@ -211,20 +215,20 @@ bool getNameFromIp(string ip, string& name) {
 
 	status = getaddrinfo(ip.c_str(), 0, 0, &res);
 
-		char host[512]/*, port[128]*/;
+	char host[512]/*, port[128]*/;
 
-		status = getnameinfo(res->ai_addr, res->ai_addrlen, host, 512, 0, 0, 0);
+	status = getnameinfo(res->ai_addr, res->ai_addrlen, host, 512, 0, 0, 0);
 
-		name = host;
+	name = host;
 
-		freeaddrinfo(res);
+	freeaddrinfo(res);
 
-		if (name == ip)
-			return false;
+	if (name == ip)
+		return false;
 
-		name = name.substr(0, name.find('.'));
+	name = name.substr(0, name.find('.'));
 
-		return true;
+	return true;
 }
 
 extern "C" void* thPingNode(void *p)
@@ -246,7 +250,8 @@ extern "C" void* thPingNode(void *p)
 	return 0L;
 }
 
-static int my_handler(int event) {
+static int my_handler(int event)
+{
 	if (event == FL_SHORTCUT)
 	{
 		debugBox->label("<esc>");
@@ -274,6 +279,7 @@ void refreshAll(bool isFirstTime)
 		{
 			nodeList[i].boxTxt = new NodeBox(i);
 			nodeList[i].boxTxt->box(FL_FLAT_BOX);
+			nodeList[i].boxTxt->tooltip(nodeList[i].ip.c_str());
 		}
 
 		nodeList[i].boxTxt->color(FL_YELLOW);
@@ -285,7 +291,8 @@ void refreshAll(bool isFirstTime)
 	fl_create_thread(prime_thread, thSleep60, NULL);
 }
 
-bool isNotAlnum(unsigned char c) {
+bool isNotAlnum(unsigned char c)
+{
 	return (c<' ' || c>'~');
 }
 
