@@ -8,20 +8,13 @@
 		<Build>
 			<Target title="Debug Win32">
 				<Option output="./Debug/Pingui" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin" />
 				<Option object_output="Debug/" />
 				<Option deps_output="./Debug/" />
 				<Option type="0" />
 				<Option compiler="cygwin" />
 				<Compiler>
-					<Add option="/D_UNICODE /DUNICODE" />
-					<Add option="/Zi" />
-					<Add option="/DWIN32" />
-					<Add option="/D_DEBUG" />
-					<Add option="/D_WINDOWS" />
-					<Add option="/D_NO_CRT_STDIO_INLINE" />
-					<Add option="/Od" />
-					<Add option="/MDd" />
-					<Add option="/W3" />
+					<Add option="-fpermissive" />
 					<Add directory="inc/" />
 				</Compiler>
 				<Linker>
@@ -44,17 +37,12 @@
 			</Target>
 			<Target title="Release Win32">
 				<Option output="./Release/Pingui" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin" />
 				<Option object_output="Release/" />
 				<Option deps_output="./Release/" />
 				<Option type="0" />
 				<Option compiler="cygwin" />
 				<Compiler>
-					<Add option="/D_UNICODE /DUNICODE" />
-					<Add option="/DWIN32" />
-					<Add option="/DNDEBUG" />
-					<Add option="/D_WINDOWS" />
-					<Add option="/O2" />
-					<Add option="/W3" />
 					<Add directory="C:/Sviluppo/Pingui/inc/" />
 				</Compiler>
 				<Linker>
