@@ -9,12 +9,10 @@
 #include <FL/Fl_Box.H>
 #include <FL/x.H>
 #include <FL/fl_ask.H>
-#include <FL/FL_ToolTip.H>
 
 #include <fstream>
 #include <sstream>
 #include <vector>
-//#include <thread>
 
 #  include "threads.h"
 
@@ -24,9 +22,7 @@ Fl_Thread prime_thread;
 
 
 #define ALTEZZA_CARATTERI 16
-//#define ALTEZZA_PER_LINEA 12
 #define LARGHEZZA_NOME_NODO 120
-//#define LARGHEZZA_STATUS ALTEZZA_CARATTERI
 
 enum Status
 {
@@ -43,7 +39,6 @@ struct NodeStatus
 	Status status;
 	NodeBox* boxTxt;
 	unsigned cyclesNotReplying;
-	//Fl_Box * boxStatus;
 
 	NodeStatus(const string& _ip) : ip(_ip), nodeName(""), status(DOWN), boxTxt(NULL), cyclesNotReplying(0) {}
 };
@@ -71,7 +66,7 @@ class MovingWindows : public Fl_Window
 				case FL_PUSH:
 
 					if (Fl::event_button() == FL_RIGHT_MOUSE)
-						if (fl_ask("Are you sure you want to quit?"))
+						if (fl_choice("Are you sure you want to quit?", "Yessa", "Nope", NULL))
 							exit(0);
 
 					xoff = x() - Fl::event_x_root();
@@ -97,32 +92,32 @@ MovingWindows* window;
 extern "C" void* thPingNode(void * nodeId);
 
 
-//#include <corecrt_wio.h>
-
 class NodeBox : public Fl_Box
 {
 	private:
 		unsigned m_index;
 	public:
-		NodeBox(unsigned i) :Fl_Box(0, (i + 1)* ALTEZZA_CARATTERI, LARGHEZZA_NOME_NODO, ALTEZZA_CARATTERI, nodeList[i].ip.c_str()), m_index(i) {}
+		NodeBox(unsigned i) :Fl_Box(0, (i + 1)* ALTEZZA_CARATTERI, LARGHEZZA_NOME_NODO, ALTEZZA_CARATTERI, nodeList[i].ip.c_str()), m_index(i), m_bDisplayName(true) {}
+
+		bool m_bDisplayName;
 
 		int handle(int e)
 		{
 			int ret = 0;
-			static int xoff = 0, yoff = 0;	// (or put these in the class)
 			ret = Fl_Box::handle(e);
 			switch (e)
 			{
 				case FL_PUSH:
+					{
 					int doubleClick = Fl::event_clicks();
 					if (doubleClick)
 					{
 						color(FL_YELLOW);
-						fl_create_thread(prime_thread, thPingNode, (void *)m_index);
-
-						//thread* myThPingNode = new thread(thPingNode, m_index);
+						fl_create_thread(prime_thread, thPingNode, (void *)&nodeList[m_index]);
 					}
-					//ret = 1;
+					}
+					ret = 1;
+					break;
 			}
 			return(ret);
 		}
@@ -138,7 +133,10 @@ void updateGui(void* userdata)
 		color = FL_GREEN;
 	nodeStatus->boxTxt->color(color);
 
-	nodeStatus->boxTxt->copy_label(nodeStatus->nodeName.c_str());
+	const char *displayedString = nodeStatus->ip.c_str();
+	if (nodeStatus->boxTxt->m_bDisplayName)
+		displayedString = nodeStatus->nodeName.c_str();
+	nodeStatus->boxTxt->copy_label(displayedString);
 
 	nodeStatus->boxTxt->redraw();
 
@@ -146,11 +144,8 @@ void updateGui(void* userdata)
 }
 
 
-Status pingNode(unsigned nodeId)
+Status pingNode(const string &_ip)
 {
-	//string pingCmd = string("ping -n 1 ") + nodeList[nodeId].ip + string(">NUL");
-	//int x = system(pingCmd.c_str());
-
 	HANDLE hIcmpFile;
 	unsigned long ipaddr = INADDR_NONE;
 	DWORD dwRetVal = 0;
@@ -159,7 +154,7 @@ Status pingNode(unsigned nodeId)
 	LPVOID ReplyBuffer = NULL;
 	DWORD ReplySize = 0;
 
-	ipaddr = inet_addr(nodeList[nodeId].ip.c_str());
+	ipaddr = inet_addr(_ip.c_str());
 	if (ipaddr == INADDR_NONE)
 		return Status::DOWN;
 
@@ -233,19 +228,19 @@ bool getNameFromIp(string ip, string& name)
 
 extern "C" void* thPingNode(void *p)
 {
-	unsigned nodeId = reinterpret_cast<unsigned>(p);
-	nodeList[nodeId].nodeName = nodeList[nodeId].ip;
+	NodeStatus *pNode = (NodeStatus*)p;
+	pNode->nodeName = pNode->ip;
 
-	Status nodeStatus = pingNode(nodeId);
-	nodeList[nodeId].status = nodeStatus;
+	Status nodeStatus = pingNode(pNode->ip);
+	pNode->status = nodeStatus;
 	if (nodeStatus == Status::UP)
 	{
 		string nodeName;
-		if (getNameFromIp(nodeList[nodeId].ip, nodeName))
-			nodeList[nodeId].nodeName = nodeName;
+		if (getNameFromIp(pNode->ip, nodeName))
+			pNode->nodeName = nodeName;
 	}
 
-	Fl::awake(updateGui, &nodeList[nodeId]);
+	Fl::awake(updateGui, pNode);
 
 	return 0L;
 }
@@ -283,7 +278,7 @@ void refreshAll(bool isFirstTime)
 		}
 
 		nodeList[i].boxTxt->color(FL_YELLOW);
-		fl_create_thread(prime_thread, thPingNode, (void *)i);
+		fl_create_thread(prime_thread, thPingNode, (void *)&nodeList[i]);
 
 	}
 	// lancia un thread che ogni 60 secondi richiama il refreshAll
@@ -301,6 +296,7 @@ bool isNotAlnum(unsigned char c)
 //int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
 int main(int argc, TCHAR* argv[])
 {
+	system("echo zac >> pingui.log");
 	// legge dal file di configurazione gli elementi da monitorare
 	ifstream objFile;
 	try
