@@ -24,6 +24,18 @@ Fl_Thread prime_thread;
 #define ALTEZZA_CARATTERI 16
 #define LARGHEZZA_NOME_NODO 120
 
+
+void initLog()
+{
+	system("echo Start Pingui.exe 1 > pingui.log");
+}
+
+void writeLog(const string &_msg)
+{
+	string fullLine = string("echo ")+ _msg + string(" >> pingui.log");
+	system(fullLine.c_str());
+}
+
 enum Status
 {
 	DOWN,
@@ -66,7 +78,7 @@ class MovingWindows : public Fl_Window
 				case FL_PUSH:
 
 					if (Fl::event_button() == FL_RIGHT_MOUSE)
-						if (fl_choice("Are you sure you want to quit?", "Yessa", "Nope", NULL))
+						if (fl_choice("Are you sure you want to quit?", "No", "Yes", NULL))
 							exit(0);
 
 					xoff = x() - Fl::event_x_root();
@@ -97,9 +109,7 @@ class NodeBox : public Fl_Box
 	private:
 		unsigned m_index;
 	public:
-		NodeBox(unsigned i) :Fl_Box(0, (i + 1)* ALTEZZA_CARATTERI, LARGHEZZA_NOME_NODO, ALTEZZA_CARATTERI, nodeList[i].ip.c_str()), m_index(i), m_bDisplayName(true) {}
-
-		bool m_bDisplayName;
+		NodeBox(unsigned i) :Fl_Box(0, (i + 1)* ALTEZZA_CARATTERI, LARGHEZZA_NOME_NODO, ALTEZZA_CARATTERI, nodeList[i].ip.c_str()), m_index(i) {}
 
 		int handle(int e)
 		{
@@ -109,16 +119,30 @@ class NodeBox : public Fl_Box
 			{
 				case FL_PUSH:
 					{
-					int doubleClick = Fl::event_clicks();
-					if (doubleClick)
-					{
-						color(FL_YELLOW);
-						fl_create_thread(prime_thread, thPingNode, (void *)&nodeList[m_index]);
-					}
+						int doubleClick = Fl::event_clicks();
+						if (doubleClick)
+						{
+							color(FL_YELLOW);
+							fl_create_thread(prime_thread, thPingNode, (void *)&nodeList[m_index]);
+						}
 					}
 					ret = 1;
 					break;
+				case FL_ENTER:
+					copy_label(nodeList[m_index].ip.c_str());
+					redraw();
+					ret = 1;
+					break;
+//				case FL_LEAVE:
+//					color(FL_BLACK);
+//					m_bDisplayName = true;
+//					redraw();
+//					ret = 1;
+//					break;
 			}
+
+			//writeLog("bbb"+to_string(e));
+
 			return(ret);
 		}
 
@@ -133,14 +157,9 @@ void updateGui(void* userdata)
 		color = FL_GREEN;
 	nodeStatus->boxTxt->color(color);
 
-	const char *displayedString = nodeStatus->ip.c_str();
-	if (nodeStatus->boxTxt->m_bDisplayName)
-		displayedString = nodeStatus->nodeName.c_str();
-	nodeStatus->boxTxt->copy_label(displayedString);
+	nodeStatus->boxTxt->copy_label(nodeStatus->nodeName.c_str());
 
 	nodeStatus->boxTxt->redraw();
-
-	//Fl::flush();
 }
 
 
@@ -274,7 +293,6 @@ void refreshAll(bool isFirstTime)
 		{
 			nodeList[i].boxTxt = new NodeBox(i);
 			nodeList[i].boxTxt->box(FL_FLAT_BOX);
-			nodeList[i].boxTxt->tooltip(nodeList[i].ip.c_str());
 		}
 
 		nodeList[i].boxTxt->color(FL_YELLOW);
@@ -296,7 +314,10 @@ bool isNotAlnum(unsigned char c)
 //int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
 int main(int argc, TCHAR* argv[])
 {
-	system("echo zac >> pingui.log");
+	initLog();
+
+	//writeLog("bbb"+to_string(23));
+
 	// legge dal file di configurazione gli elementi da monitorare
 	ifstream objFile;
 	try
@@ -337,7 +358,7 @@ int main(int argc, TCHAR* argv[])
 		}
 	}
 
-	window = new MovingWindows(LARGHEZZA_NOME_NODO/*+LARGHEZZA_STATUS*/, nodeList.size() * ALTEZZA_CARATTERI + ALTEZZA_CARATTERI); // la size dipende dal numero di elementi da monitorare recuperati dal file di configurazione
+	window = new MovingWindows(LARGHEZZA_NOME_NODO, nodeList.size() * ALTEZZA_CARATTERI + ALTEZZA_CARATTERI); // la size dipende dal numero di elementi da monitorare recuperati dal file di configurazione
 
 	Fl::add_handler(my_handler);
 

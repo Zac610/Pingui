@@ -1,5 +1,6 @@
 # depslib dependency file v1.0
-1629986450 source:c:\users\slocascio\progetti\pingui\src\main.cpp
+1631529489 source:c:\users\slocascio\progetti\pingui\src\main.cpp
+	<winsock2.h>
 	<iphlpapi.h>
 	<icmpapi.h>
 	<WS2tcpip.h>
