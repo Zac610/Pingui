@@ -23,6 +23,54 @@ Fl_Thread prime_thread;
 
 #define ALTEZZA_CARATTERI 16
 #define LARGHEZZA_NOME_NODO 120
+#define LARGHEZZA_LAST_SEEN 120
+#define SECONDS_PER_CYCLE 10
+
+struct TimePassed
+{
+	unsigned int value;
+	string unit;
+};
+
+
+TimePassed getTimePassed(unsigned int seconds)
+{
+	if (seconds < 60*2)
+		return {seconds, "second"};
+
+	unsigned int minutes = seconds / 60;
+	if (minutes < 60*2)
+		return {minutes, "minute"};
+
+	unsigned int hours = seconds / (60*60) ;
+	if (hours < 24*2)
+		return {hours, "hour"};
+
+	unsigned int days = seconds / (60*60*24);
+	if (days < 7*2)
+		return {days, "day"};
+
+	unsigned int weeks = seconds / (60*60*24*7);
+	if (weeks < 4*2)
+		return {weeks, "week"};
+
+	unsigned int months = seconds / (60*60*24*7*4);
+	if (months < 12*2)
+		return {months, "month"};
+
+	return {seconds/(60*60*24*7*4*12), "year"};
+}
+
+string getStringPassed(unsigned int seconds)
+{
+	TimePassed tp = getTimePassed(seconds);
+
+	string plural = "";
+	if (tp.value > 1)
+		plural = "s";
+
+	return to_string(tp.value) + " " + tp.unit + plural;
+}
 
 
 void initLog()
@@ -50,9 +98,11 @@ struct NodeStatus
 	string nodeName;
 	Status status;
 	NodeBox* boxTxt;
+	Fl_Box* lastSeenBox;
 	unsigned cyclesNotReplying;
+	bool replied;
 
-	NodeStatus(const string& _ip) : ip(_ip), nodeName(""), status(DOWN), boxTxt(NULL), cyclesNotReplying(0) {}
+	NodeStatus(const string& _ip) : ip(_ip), nodeName(""), status(DOWN), boxTxt(NULL), cyclesNotReplying(0), replied(false) {}
 };
 
 vector<NodeStatus> nodeList;
@@ -153,13 +203,28 @@ void updateGui(void* userdata)
 	NodeStatus *nodeStatus = (NodeStatus*)userdata;
 
 	Fl_Color color = FL_RED;
+	string stringPassed = "now";
 	if (nodeStatus->status == Status::UP)
+	{
 		color = FL_GREEN;
+		nodeStatus->cyclesNotReplying = 0;
+		nodeStatus->replied = true;
+	}
+	else
+	{
+		nodeStatus->cyclesNotReplying++;
+		stringPassed = getStringPassed(nodeStatus->cyclesNotReplying * SECONDS_PER_CYCLE);
+	}
+	if (nodeStatus->replied)
+		nodeStatus->lastSeenBox->copy_label(stringPassed.c_str());
+
 	nodeStatus->boxTxt->color(color);
+	nodeStatus->lastSeenBox->color(color);
 
 	nodeStatus->boxTxt->copy_label(nodeStatus->nodeName.c_str());
 
 	nodeStatus->boxTxt->redraw();
+	nodeStatus->lastSeenBox->redraw();
 }
 
 
@@ -280,7 +345,7 @@ void refreshAll(bool isFirstTime);
 
 extern "C" void* thSleep60(void* p)
 {
-	Sleep(10 * 1000);
+	Sleep(SECONDS_PER_CYCLE * 1000);
 	refreshAll(false);
 	return 0L;
 }
@@ -293,6 +358,8 @@ void refreshAll(bool isFirstTime)
 		{
 			nodeList[i].boxTxt = new NodeBox(i);
 			nodeList[i].boxTxt->box(FL_FLAT_BOX);
+			nodeList[i].lastSeenBox = new Fl_Box(LARGHEZZA_NOME_NODO, (i + 1)* ALTEZZA_CARATTERI, LARGHEZZA_LAST_SEEN, ALTEZZA_CARATTERI, "never");
+			nodeList[i].lastSeenBox->box(FL_THIN_DOWN_BOX);
 		}
 
 		nodeList[i].boxTxt->color(FL_YELLOW);
@@ -358,7 +425,7 @@ int main(int argc, TCHAR* argv[])
 		}
 	}
 
-	window = new MovingWindows(LARGHEZZA_NOME_NODO, nodeList.size() * ALTEZZA_CARATTERI + ALTEZZA_CARATTERI); // la size dipende dal numero di elementi da monitorare recuperati dal file di configurazione
+	window = new MovingWindows(LARGHEZZA_NOME_NODO+LARGHEZZA_LAST_SEEN, nodeList.size() * ALTEZZA_CARATTERI + ALTEZZA_CARATTERI); // la size dipende dal numero di elementi da monitorare recuperati dal file di configurazione
 
 	Fl::add_handler(my_handler);
 
@@ -373,8 +440,6 @@ int main(int argc, TCHAR* argv[])
 	HWND hWnd = fl_xid(window);
 	ShowWindow(hWnd, SW_SHOWNORMAL);
 	SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-
-	//SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, FLAGS);
 
 	Fl::lock();
 	return Fl::run();
