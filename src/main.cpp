@@ -20,6 +20,7 @@ using namespace std;
 
 Fl_Thread prime_thread;
 
+#define MSG_ABOUT "PinGui v.1\nby Sergio Lo Cascio"
 
 #define ALTEZZA_CARATTERI 16
 #define LARGHEZZA_NOME_NODO 120
@@ -66,7 +67,7 @@ string getStringPassed(unsigned int seconds)
 	TimePassed tp = getTimePassed(seconds);
 
 	string plural = "";
-	if (tp.value > 1)
+	if (tp.value != 1)
 		plural = "s";
 
 	return to_string(tp.value) + " " + tp.unit + plural;
@@ -128,8 +129,11 @@ class MovingWindows : public Fl_Window
 				case FL_PUSH:
 
 					if (Fl::event_button() == FL_RIGHT_MOUSE)
-						if (fl_choice("Are you sure you want to quit?", "No", "Yes", NULL))
+					{
+						if (fl_choice(MSG_ABOUT"\n\nExit?", "No", "Yes", NULL))
 							exit(0);
+
+					}
 
 					xoff = x() - Fl::event_x_root();
 					yoff = y() - Fl::event_y_root();
@@ -183,19 +187,9 @@ class NodeBox : public Fl_Box
 					redraw();
 					ret = 1;
 					break;
-//				case FL_LEAVE:
-//					color(FL_BLACK);
-//					m_bDisplayName = true;
-//					redraw();
-//					ret = 1;
-//					break;
 			}
-
-			//writeLog("bbb"+to_string(e));
-
 			return(ret);
 		}
-
 };
 
 void updateGui(void* userdata)
@@ -212,10 +206,10 @@ void updateGui(void* userdata)
 	}
 	else
 	{
-		nodeStatus->cyclesNotReplying++;
 		stringPassed = getStringPassed(nodeStatus->cyclesNotReplying * SECONDS_PER_CYCLE);
+		nodeStatus->cyclesNotReplying++;
 	}
-	if (nodeStatus->replied)
+	//if (nodeStatus->replied)
 		nodeStatus->lastSeenBox->copy_label(stringPassed.c_str());
 
 	nodeStatus->boxTxt->color(color);
@@ -357,7 +351,7 @@ void refreshAll(bool isFirstTime)
 		if (isFirstTime)
 		{
 			nodeList[i].boxTxt = new NodeBox(i);
-			nodeList[i].boxTxt->box(FL_FLAT_BOX);
+			nodeList[i].boxTxt->box(FL_THIN_DOWN_BOX);
 			nodeList[i].lastSeenBox = new Fl_Box(LARGHEZZA_NOME_NODO, (i + 1)* ALTEZZA_CARATTERI, LARGHEZZA_LAST_SEEN, ALTEZZA_CARATTERI, "never");
 			nodeList[i].lastSeenBox->box(FL_THIN_DOWN_BOX);
 		}
@@ -429,8 +423,11 @@ int main(int argc, TCHAR* argv[])
 
 	Fl::add_handler(my_handler);
 
-	debugBox = new Fl_Box(0, 0, LARGHEZZA_NOME_NODO, ALTEZZA_CARATTERI, "Pingui");
+	debugBox = new Fl_Box(0, 0, LARGHEZZA_NOME_NODO, ALTEZZA_CARATTERI, "Node");
 	debugBox->box(FL_FLAT_BOX);
+
+	Fl_Box *lsbox = new Fl_Box(LARGHEZZA_NOME_NODO, 0, LARGHEZZA_LAST_SEEN, ALTEZZA_CARATTERI, "Last seen");
+	lsbox->box(FL_FLAT_BOX);
 
 	refreshAll(true);
 
