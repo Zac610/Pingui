@@ -126,21 +126,21 @@ class NodeBox : public Fl_Box
 			switch (e)
 			{
 				case FL_PUSH:
+				{
+					int doubleClick = Fl::event_clicks();
+					if (doubleClick)
 					{
-						int doubleClick = Fl::event_clicks();
-						if (doubleClick)
-						{
-							color(FL_YELLOW);
-							fl_create_thread(prime_thread, thPingNode, (void *)&nodeList[m_index]);
-						}
+						color(FL_YELLOW);
+						fl_create_thread(prime_thread, thPingNode, (void *)&nodeList[m_index]);
 					}
-					ret = 1;
-					break;
-				case FL_ENTER:
-					copy_label(nodeList[m_index].ip.c_str());
-					redraw();
-					ret = 1;
-					break;
+					else
+					{
+						copy_label(nodeList[m_index].ip.c_str());
+						redraw();
+					}
+				}
+				ret = 1;
+				break;
 			}
 			return(ret);
 		}
@@ -212,12 +212,10 @@ Status pingNode(const string &_ip)
 		Status retVal = Status::DOWN;
 		switch (pEchoReply->Status)
 		{
-			case IP_DEST_HOST_UNREACHABLE:
-			case IP_DEST_NET_UNREACHABLE:
-			case IP_REQ_TIMED_OUT:
-				retVal = Status::DOWN;
-			default:
+			case IP_SUCCESS:
 				retVal = Status::UP;
+			default:
+				retVal = Status::DOWN;
 				break;
 		}
 
