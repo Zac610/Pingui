@@ -12,7 +12,7 @@
 				<Option object_output="Debug/" />
 				<Option deps_output="./Debug/" />
 				<Option type="0" />
-				<Option compiler="cygwin" />
+				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-fpermissive" />
 					<Add directory="inc/" />
@@ -41,7 +41,7 @@
 				<Option object_output="Release/" />
 				<Option deps_output="./Release/" />
 				<Option type="0" />
-				<Option compiler="cygwin" />
+				<Option compiler="gcc" />
 				<Compiler>
 					<Add directory="C:/Sviluppo/Pingui/inc/" />
 				</Compiler>
@@ -78,6 +78,7 @@
 			<Add directory="." />
 		</ResourceCompiler>
 		<Unit filename="bin/Pingui.conf" />
+		<Unit filename="src/MovingWindow.h" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/threads.h" />
 		<Extensions />
