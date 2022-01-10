@@ -223,3 +223,116 @@
 	<FL/Fl.H>
 	<FL/Fl_Widget.H>
 
+1641825746 source:c:\sviluppo\pingui-main\src\main.cpp
+	<winsock2.h>
+	<iphlpapi.h>
+	<icmpapi.h>
+	<WS2tcpip.h>
+	<wspiapi.h>
+	<FL/Fl.H>
+	<FL/Fl_Window.H>
+	<FL/Fl_Box.H>
+	<FL/x.H>
+	<FL/fl_ask.H>
+	<fstream>
+	<sstream>
+	<vector>
+	"threads.h"
+	"MovingWindow.h"
+
+1631509878 c:\sviluppo\pingui-main\inc\\fl\fl.h
+	<FL/Fl_Export.H>
+	<FL/Fl_Cairo.H>
+	"fl_utf8.h"
+	"Enumerations.H"
+	<stdio.h>
+	<FL/Fl.H>
+	<FL/Fl_Window.H>
+
+1631509878 c:\sviluppo\pingui-main\inc\\fl\fl_export.h
+
+1631509878 c:\sviluppo\pingui-main\inc\\fl\fl_cairo.h
+	<FL/Fl_Export.H>
+	<cairo.h>
+
+1631509878 c:\sviluppo\pingui-main\inc\\fl\fl_utf8.h
+	"Fl_Export.H"
+	"fl_types.h"
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<locale.h>
+	<ctype.h>
+	<wchar.h>
+	<sys/stat.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<X11/Xlocale.h>
+	<X11/Xlib.h>
+	<locale.h>
+
+1631509878 c:\sviluppo\pingui-main\inc\\fl\fl_types.h
+
+1631509878 c:\sviluppo\pingui-main\inc\\fl\enumerations.h
+	<FL/abi-version.h>
+	"Fl_Export.H"
+	"fl_types.h"
+
+1631509878 c:\sviluppo\pingui-main\inc\\fl\abi-version.h
+
+1631509878 c:\sviluppo\pingui-main\inc\\fl\fl_window.h
+	<windows.h>
+	"Fl_Group.H"
+	"Fl_Bitmap.H"
+	<stdlib.h>
+
+1631509878 c:\sviluppo\pingui-main\inc\\fl\fl_group.h
+	"Fl_Widget.H"
+
+1631509878 c:\sviluppo\pingui-main\inc\\fl\fl_widget.h
+	"Enumerations.H"
+	<stdint.h>
+	<stddef.h>
+
+1631509878 c:\sviluppo\pingui-main\inc\\fl\fl_bitmap.h
+	"Fl_Image.H"
+
+1631509878 c:\sviluppo\pingui-main\inc\\fl\fl_image.h
+	"Enumerations.H"
+	<stdlib.h>
+
+1631509878 c:\sviluppo\pingui-main\inc\\fl\fl_box.h
+	"Fl_Widget.H"
+
+1631509878 c:\sviluppo\pingui-main\inc\\fl\x.h
+	"Enumerations.H"
+	"win32.H"
+	"mac.H"
+	<X11/Xlib.h>
+	<X11/Xutil.h>
+	<X11/Xatom.h>
+	"Fl_Window.H"
+
+1631509878 c:\sviluppo\pingui-main\inc\\fl\win32.h
+	<windows.h>
+	<FL/Fl_Window.H>
+
+1631509878 c:\sviluppo\pingui-main\inc\\fl\mac.h
+	<FL/Fl_Widget.H>
+	<ApplicationServices/ApplicationServices.h>
+	"Fl_Window.H"
+	"../src/Fl_Font.H"
+
+1631509878 c:\sviluppo\pingui-main\inc\\fl\fl_ask.h
+	"Enumerations.H"
+
+1631509878 c:\sviluppo\pingui-main\src\threads.h
+	<pthread.h>
+	<windows.h>
+	<process.h>
+	<process.h>
+
+1641825721 c:\sviluppo\pingui-main\src\movingwindow.h
+

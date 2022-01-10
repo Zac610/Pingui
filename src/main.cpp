@@ -14,13 +14,12 @@
 #include <sstream>
 #include <vector>
 
-#  include "threads.h"
+#include "threads.h"
+#include "MovingWindow.h"
 
 using namespace std;
 
 Fl_Thread prime_thread;
-
-#define MSG_ABOUT "PinGui v.1\nby Sergio Lo Cascio"
 
 #define ALTEZZA_CARATTERI 16
 #define LARGHEZZA_NOME_NODO 120
@@ -110,51 +109,6 @@ vector<NodeStatus> nodeList;
 
 Fl_Box* debugBox;
 
-class MovingWindows : public Fl_Window
-{
-	public:
-		MovingWindows(int w, int h) : Fl_Window(w, h)
-		{
-			border(0);
-		}
-
-		int handle(int e)
-		{
-			int ret = 0;
-			static int xoff = 0, yoff = 0;	// (or put these in the class)
-			ret = Fl_Window::handle(e);
-			switch (e)
-			{
-				// DOWNCLICK IN WINDOW CREATES CURSOR OFFSETS
-				case FL_PUSH:
-
-					if (Fl::event_button() == FL_RIGHT_MOUSE)
-					{
-						if (fl_choice(MSG_ABOUT"\n\nExit?", "No", "Yes", NULL))
-							exit(0);
-
-					}
-
-					xoff = x() - Fl::event_x_root();
-					yoff = y() - Fl::event_y_root();
-					ret = 1;
-
-				case FL_DRAG:
-					// DRAG THE WINDOW AROUND THE SCREEN
-					position(xoff + Fl::event_x_root(), yoff + Fl::event_y_root());
-					redraw();
-					ret = 1;
-
-				case FL_RELEASE:
-					show();             // raise
-					ret = 1;
-			}
-			return(ret);
-		}
-};
-
-MovingWindows* window;
-
 extern "C" void* thPingNode(void * nodeId);
 
 
@@ -209,7 +163,7 @@ void updateGui(void* userdata)
 		stringPassed = getStringPassed(nodeStatus->cyclesNotReplying * SECONDS_PER_CYCLE);
 		nodeStatus->cyclesNotReplying++;
 	}
-	//if (nodeStatus->replied)
+	if (nodeStatus->replied)
 		nodeStatus->lastSeenBox->copy_label(stringPassed.c_str());
 
 	nodeStatus->boxTxt->color(color);
@@ -419,7 +373,7 @@ int main(int argc, TCHAR* argv[])
 		}
 	}
 
-	window = new MovingWindows(LARGHEZZA_NOME_NODO+LARGHEZZA_LAST_SEEN, nodeList.size() * ALTEZZA_CARATTERI + ALTEZZA_CARATTERI); // la size dipende dal numero di elementi da monitorare recuperati dal file di configurazione
+	MovingWindow* mainWindow = new MovingWindow(LARGHEZZA_NOME_NODO+LARGHEZZA_LAST_SEEN, nodeList.size() * ALTEZZA_CARATTERI + ALTEZZA_CARATTERI); // la size dipende dal numero di elementi da monitorare recuperati dal file di configurazione
 
 	Fl::add_handler(my_handler);
 
@@ -431,10 +385,10 @@ int main(int argc, TCHAR* argv[])
 
 	refreshAll(true);
 
-	window->end();
-	window->show();
+	mainWindow->end();
+	mainWindow->show();
 
-	HWND hWnd = fl_xid(window);
+	HWND hWnd = fl_xid(mainWindow);
 	ShowWindow(hWnd, SW_SHOWNORMAL);
 	SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
