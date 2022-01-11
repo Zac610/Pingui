@@ -1,3 +1,6 @@
+#ifndef _MOVINGWINDOW_H_
+#define _MOVINGWINDOW_H_
+
 #define MSG_ABOUT "PinGui v.0.2\nby Sergio Lo Cascio"
 
 class MovingWindow : public Fl_Window
@@ -42,3 +45,4 @@ class MovingWindow : public Fl_Window
 		}
 };
 
+#endif

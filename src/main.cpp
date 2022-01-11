@@ -16,15 +16,13 @@
 
 #include "threads.h"
 #include "MovingWindow.h"
+#include "NodeManager.h"
 
 using namespace std;
-
-Fl_Thread prime_thread;
 
 #define ALTEZZA_CARATTERI 16
 #define LARGHEZZA_NOME_NODO 120
 #define LARGHEZZA_LAST_SEEN 120
-#define SECONDS_PER_CYCLE 10
 
 struct TimePassed
 {
@@ -84,32 +82,8 @@ void writeLog(const string &_msg)
 	system(fullLine.c_str());
 }
 
-enum Status
-{
-	DOWN,
-	UP
-};
-
-class NodeBox;
-
-struct NodeStatus
-{
-	string ip;
-	string nodeName;
-	Status status;
-	NodeBox* boxTxt;
-	Fl_Box* lastSeenBox;
-	unsigned cyclesNotReplying;
-	bool replied;
-
-	NodeStatus(const string& _ip) : ip(_ip), nodeName(""), status(DOWN), boxTxt(NULL), cyclesNotReplying(0), replied(false) {}
-};
-
-vector<NodeStatus> nodeList;
 
 Fl_Box* debugBox;
-
-extern "C" void* thPingNode(void * nodeId);
 
 
 class NodeBox : public Fl_Box
@@ -131,7 +105,7 @@ class NodeBox : public Fl_Box
 					if (doubleClick)
 					{
 						color(FL_YELLOW);
-						fl_create_thread(prime_thread, thPingNode, (void *)&nodeList[m_index]);
+						// SLC TODO fl_create_thread(prime_thread, thPingNode, (void *)&nodeList[m_index]);
 					}
 					else
 					{
@@ -145,6 +119,17 @@ class NodeBox : public Fl_Box
 			return(ret);
 		}
 };
+
+struct NodeStatusGui
+{
+	NodeBox* boxTxt;
+	Fl_Box* lastSeenBox;
+
+//	NodeStatusGui() : boxTxt(NULL), lastSeenBox(NULL) {}
+};
+std::vector<NodeStatusGui> nodeListGui;
+
+
 
 void updateGui(void* userdata)
 {
@@ -163,121 +148,24 @@ void updateGui(void* userdata)
 		stringPassed = getStringPassed(nodeStatus->cyclesNotReplying * SECONDS_PER_CYCLE);
 		nodeStatus->cyclesNotReplying++;
 	}
-	if (nodeStatus->replied)
-		nodeStatus->lastSeenBox->copy_label(stringPassed.c_str());
 
-	if (strcmp(nodeStatus->lastSeenBox->label(), "never") == 0)
+	NodeStatusGui *nsg = &nodeListGui[nodeStatus->id];
+
+	if (nodeStatus->replied)
+		nsg->lastSeenBox->copy_label(stringPassed.c_str());
+
+	if (strcmp(nsg->lastSeenBox->label(), "never") == 0)
 		color = FL_GRAY;
 
-	nodeStatus->boxTxt->color(color);
-	nodeStatus->lastSeenBox->color(color);
+	nsg->boxTxt->color(color);
+	nsg->lastSeenBox->color(color);
 
-	nodeStatus->boxTxt->copy_label(nodeStatus->nodeName.c_str());
+	nsg->boxTxt->copy_label(nodeStatus->nodeName.c_str());
 
-	nodeStatus->boxTxt->redraw();
-	nodeStatus->lastSeenBox->redraw();
+	nsg->boxTxt->redraw();
+	nsg->lastSeenBox->redraw();
 }
 
-
-Status pingNode(const string &_ip)
-{
-	HANDLE hIcmpFile;
-	unsigned long ipaddr = INADDR_NONE;
-	DWORD dwRetVal = 0;
-	DWORD dwError = 0;
-	char SendData[] = "Data Buffer";
-	LPVOID ReplyBuffer = NULL;
-	DWORD ReplySize = 0;
-
-	ipaddr = inet_addr(_ip.c_str());
-	if (ipaddr == INADDR_NONE)
-		return Status::DOWN;
-
-	hIcmpFile = IcmpCreateFile();
-	if (hIcmpFile == INVALID_HANDLE_VALUE)
-		return Status::DOWN;
-
-	// Allocate space for at a single reply
-	ReplySize = sizeof(ICMP_ECHO_REPLY) + sizeof(SendData) + 8;
-	ReplyBuffer = (VOID*)malloc(ReplySize);
-	if (ReplyBuffer == NULL)
-		return Status::DOWN;
-
-	dwRetVal = IcmpSendEcho2(hIcmpFile, NULL, NULL, NULL,
-													 ipaddr, SendData, sizeof(SendData), NULL,
-													 ReplyBuffer, ReplySize, 1000);
-	if (dwRetVal != 0)
-	{
-		PICMP_ECHO_REPLY pEchoReply = (PICMP_ECHO_REPLY)ReplyBuffer;
-		struct in_addr ReplyAddr;
-		ReplyAddr.S_un.S_addr = pEchoReply->Address;
-
-		Status retVal = Status::DOWN;
-		switch (pEchoReply->Status)
-		{
-			case IP_SUCCESS:
-				retVal = Status::UP;
-				break;
-			default:
-				retVal = Status::DOWN;
-				break;
-		}
-
-		return retVal;
-	}
-	else
-		return Status::DOWN;
-}
-
-bool getNameFromIp(string ip, string& name)
-{
-	struct addrinfo    hints;
-	struct addrinfo* res = 0;
-	int       status;
-
-	WSADATA   wsadata;
-	int statuswsadata;
-	if ((statuswsadata = WSAStartup(MAKEWORD(2, 2), &wsadata)) != 0)
-		return false;
-
-	hints.ai_family = AF_INET;
-
-	status = getaddrinfo(ip.c_str(), 0, 0, &res);
-
-	char host[512]/*, port[128]*/;
-
-	status = getnameinfo(res->ai_addr, res->ai_addrlen, host, 512, 0, 0, 0);
-
-	name = host;
-
-	freeaddrinfo(res);
-
-	if (name == ip)
-		return false;
-
-	name = name.substr(0, name.find('.'));
-
-	return true;
-}
-
-extern "C" void* thPingNode(void *p)
-{
-	NodeStatus *pNode = (NodeStatus*)p;
-	pNode->nodeName = pNode->ip;
-
-	Status nodeStatus = pingNode(pNode->ip);
-	pNode->status = nodeStatus;
-	if (nodeStatus == Status::UP)
-	{
-		string nodeName;
-		if (getNameFromIp(pNode->ip, nodeName))
-			pNode->nodeName = nodeName;
-	}
-
-	Fl::awake(updateGui, pNode);
-
-	return 0L;
-}
 
 static int my_handler(int event)
 {
@@ -289,36 +177,6 @@ static int my_handler(int event)
 	}
 
 	return 0;
-}
-
-void refreshAll(bool isFirstTime);
-
-extern "C" void* thSleep60(void* p)
-{
-	Sleep(SECONDS_PER_CYCLE * 1000);
-	refreshAll(false);
-	return 0L;
-}
-
-void refreshAll(bool isFirstTime)
-{
-	for (unsigned i = 0; i < nodeList.size(); i++)
-	{
-		if (isFirstTime)
-		{
-			nodeList[i].boxTxt = new NodeBox(i);
-			nodeList[i].boxTxt->box(FL_THIN_DOWN_BOX);
-			nodeList[i].lastSeenBox = new Fl_Box(LARGHEZZA_NOME_NODO, (i + 1)* ALTEZZA_CARATTERI, LARGHEZZA_LAST_SEEN, ALTEZZA_CARATTERI, "never");
-			nodeList[i].lastSeenBox->box(FL_THIN_DOWN_BOX);
-		}
-
-		nodeList[i].boxTxt->color(FL_YELLOW);
-		fl_create_thread(prime_thread, thPingNode, (void *)&nodeList[i]);
-
-	}
-	// lancia un thread che ogni 60 secondi richiama il refreshAll
-
-	fl_create_thread(prime_thread, thSleep60, NULL);
 }
 
 bool isNotAlnum(unsigned char c)
@@ -368,7 +226,7 @@ int main(int argc, TCHAR* argv[])
 					}
 
 					str.erase(0, pos);
-					NodeStatus node(str);
+					NodeStatus node(nodeList.size(), str);
 					nodeList.push_back(node);
 				}
 			}
@@ -376,6 +234,17 @@ int main(int argc, TCHAR* argv[])
 	}
 
 	MovingWindow* mainWindow = new MovingWindow(LARGHEZZA_NOME_NODO+LARGHEZZA_LAST_SEEN, nodeList.size() * ALTEZZA_CARATTERI + ALTEZZA_CARATTERI); // la size dipende dal numero di elementi da monitorare recuperati dal file di configurazione
+
+	for (unsigned i = 0; i < nodeList.size(); i++)
+	{
+		NodeStatusGui nsg;
+		nsg.boxTxt = new NodeBox(i);
+		nsg.boxTxt->box(FL_THIN_DOWN_BOX);
+		nsg.boxTxt->color(FL_YELLOW);
+		nsg.lastSeenBox = new Fl_Box(LARGHEZZA_NOME_NODO, (i + 1)* ALTEZZA_CARATTERI, LARGHEZZA_LAST_SEEN, ALTEZZA_CARATTERI, "never");
+		nsg.lastSeenBox->box(FL_THIN_DOWN_BOX);
+		nodeListGui.push_back(nsg);
+	}
 
 	Fl::add_handler(my_handler);
 
@@ -385,7 +254,7 @@ int main(int argc, TCHAR* argv[])
 	Fl_Box *lsbox = new Fl_Box(LARGHEZZA_NOME_NODO, 0, LARGHEZZA_LAST_SEEN, ALTEZZA_CARATTERI, "Last seen");
 	lsbox->box(FL_FLAT_BOX);
 
-	refreshAll(true);
+	refreshAll();
 
 	mainWindow->end();
 	mainWindow->show();

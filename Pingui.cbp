@@ -79,6 +79,7 @@
 		</ResourceCompiler>
 		<Unit filename="bin/Pingui.conf" />
 		<Unit filename="src/MovingWindow.h" />
+		<Unit filename="src/NodeManager.h" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/threads.h" />
 		<Extensions />
