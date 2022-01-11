@@ -4,3 +4,4 @@ Pingui.VC.db
 bin/
 *Copia.cpp
 *.bak
+Release/
