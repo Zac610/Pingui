@@ -1,7 +1,8 @@
 .vs/
-Debug/
-Pingui.VC.db
 bin/
+Debug/
+Release/
 *Copia.cpp
 *.bak
-Release/
+Pingui.VC.db
+Pingui.depend

@@ -336,7 +336,7 @@
 
 1641825721 c:\sviluppo\pingui-main\src\movingwindow.h
 
-1641904669 source:c:\sviluppo\pingui\src\main.cpp
+1641906370 source:c:\sviluppo\pingui\src\main.cpp
 	<winsock2.h>
 	<iphlpapi.h>
 	<icmpapi.h>
@@ -347,9 +347,6 @@
 	<FL/Fl_Box.H>
 	<FL/x.H>
 	<FL/fl_ask.H>
-	<fstream>
-	<sstream>
-	<vector>
 	"threads.h"
 	"MovingWindow.h"
 	"NodeManager.h"
@@ -450,7 +447,9 @@
 
 1641894709 c:\sviluppo\pingui\src\movingwindow.h
 
-1641904466 c:\sviluppo\pingui\src\nodemanager.h
+1641910195 c:\sviluppo\pingui\src\nodemanager.h
 	<string>
 	<vector>
+	<fstream>
+	<sstream>
 

@@ -3,6 +3,8 @@
 
 #include <string>
 #include <vector>
+#include <fstream>
+#include <sstream>
 
 #define SECONDS_PER_CYCLE 10
 
@@ -152,6 +154,59 @@ void refreshAll()
 	fl_create_thread(prime_thread, thSleep60, NULL);
 }
 
+void refreshSingle(const unsigned _index)
+{
+	fl_create_thread(prime_thread, thPingNode, (void *)&nodeList[_index]);
+}
 
+bool isNotAlnum(unsigned char c)
+{
+	return (c<' ' || c>'~');
+}
+
+
+bool InitNodesFromConf()
+{
+	// legge dal file di configurazione gli elementi da monitorare
+	std::ifstream objFile;
+	try
+	{
+		objFile.open("Pingui.conf", std::ifstream::in);
+	}
+	catch (std::ifstream::failure e)
+	{
+		std::string error = "Pingui.conf" + std::string(" exception: ") + e.what();
+		//OutputManager__WriteLog(E_CONF_FILE_NOT_OK, error);
+		return false;
+	}
+
+	std::string line;
+	if (objFile)
+	{
+		while (getline(objFile, line))
+		{
+			std::istringstream iss(line);
+			std::string str;
+			if (iss >> str)
+			{
+				if (str[0] != '#') // comment line, ignored
+				{
+					unsigned pos = 0;
+					while (isNotAlnum(str[pos]))
+					{
+						pos++;
+						if (pos >= str.length())
+							break;
+					}
+					str.erase(0, pos); // remove BOM chars, if any
+
+					NodeStatus node(nodeList.size(), str);
+					nodeList.push_back(node);
+				}
+			}
+		}
+	}
+	return true;
+}
 
 #endif

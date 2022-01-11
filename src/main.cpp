@@ -10,10 +10,6 @@
 #include <FL/x.H>
 #include <FL/fl_ask.H>
 
-#include <fstream>
-#include <sstream>
-#include <vector>
-
 #include "threads.h"
 #include "MovingWindow.h"
 #include "NodeManager.h"
@@ -105,7 +101,7 @@ class NodeBox : public Fl_Box
 					if (doubleClick)
 					{
 						color(FL_YELLOW);
-						// SLC TODO fl_create_thread(prime_thread, thPingNode, (void *)&nodeList[m_index]);
+						refreshSingle(m_index);
 					}
 					else
 					{
@@ -179,12 +175,6 @@ static int my_handler(int event)
 	return 0;
 }
 
-bool isNotAlnum(unsigned char c)
-{
-	return (c<' ' || c>'~');
-}
-
-
 //int main(int v, char* a)
 //int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
 int main(int argc, TCHAR* argv[])
@@ -192,46 +182,7 @@ int main(int argc, TCHAR* argv[])
 	initLog();
 
 	//writeLog("bbb"+to_string(23));
-
-	// legge dal file di configurazione gli elementi da monitorare
-	ifstream objFile;
-	try
-	{
-		objFile.open("Pingui.conf", ifstream::in);
-	}
-	catch (ifstream::failure e)
-	{
-		string error = "Pingui.conf" + string(" exception: ") + e.what();
-		//OutputManager__WriteLog(E_CONF_FILE_NOT_OK, error);
-		return -1;
-	}
-
-	string line;
-	if (objFile)
-	{
-		while (getline(objFile, line))
-		{
-			istringstream iss(line);
-			string str;
-			if (iss >> str)
-			{
-				if (str[0] != '#')
-				{
-					unsigned pos = 0;
-					while (isNotAlnum(str[pos]))
-					{
-						pos++;
-						if (pos >= str.length())
-							break;
-					}
-
-					str.erase(0, pos);
-					NodeStatus node(nodeList.size(), str);
-					nodeList.push_back(node);
-				}
-			}
-		}
-	}
+	InitNodesFromConf();
 
 	MovingWindow* mainWindow = new MovingWindow(LARGHEZZA_NOME_NODO+LARGHEZZA_LAST_SEEN, nodeList.size() * ALTEZZA_CARATTERI + ALTEZZA_CARATTERI); // la size dipende dal numero di elementi da monitorare recuperati dal file di configurazione
 
