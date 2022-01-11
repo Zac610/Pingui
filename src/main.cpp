@@ -166,6 +166,9 @@ void updateGui(void* userdata)
 	if (nodeStatus->replied)
 		nodeStatus->lastSeenBox->copy_label(stringPassed.c_str());
 
+	if (strcmp(nodeStatus->lastSeenBox->label(), "never") == 0)
+		color = FL_GRAY;
+
 	nodeStatus->boxTxt->color(color);
 	nodeStatus->lastSeenBox->color(color);
 
@@ -214,6 +217,7 @@ Status pingNode(const string &_ip)
 		{
 			case IP_SUCCESS:
 				retVal = Status::UP;
+				break;
 			default:
 				retVal = Status::DOWN;
 				break;
