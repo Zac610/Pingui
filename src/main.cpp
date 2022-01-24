@@ -13,6 +13,7 @@
 #include "threads.h"
 #include "MovingWindow.h"
 #include "NodeManager.h"
+//#include "icon.h"
 
 using namespace std;
 
@@ -20,12 +21,14 @@ using namespace std;
 #define LARGHEZZA_NOME_NODO 120
 #define LARGHEZZA_LAST_SEEN 120
 
+
+Fl_Box* gDebugBox;
+
 struct TimePassed
 {
 	unsigned int value;
 	string unit;
 };
-
 
 TimePassed getTimePassed(unsigned int seconds)
 {
@@ -79,8 +82,6 @@ void writeLog(const string &_msg)
 }
 
 
-Fl_Box* debugBox;
-
 
 class NodeBox : public Fl_Box
 {
@@ -120,8 +121,6 @@ struct NodeStatusGui
 {
 	NodeBox* boxTxt;
 	Fl_Box* lastSeenBox;
-
-//	NodeStatusGui() : boxTxt(NULL), lastSeenBox(NULL) {}
 };
 std::vector<NodeStatusGui> nodeListGui;
 
@@ -167,7 +166,7 @@ static int my_handler(int event)
 {
 	if (event == FL_SHORTCUT)
 	{
-		debugBox->label("<esc>");
+		gDebugBox->label("<esc>");
 
 		return 1; // eat all shortcut keys
 	}
@@ -199,9 +198,8 @@ int main(int argc, TCHAR* argv[])
 
 	Fl::add_handler(my_handler);
 
-	debugBox = new Fl_Box(0, 0, LARGHEZZA_NOME_NODO, ALTEZZA_CARATTERI, "Node");
-	debugBox->box(FL_FLAT_BOX);
-
+	gDebugBox = new Fl_Box(0, 0, LARGHEZZA_NOME_NODO, ALTEZZA_CARATTERI, "Node");
+	gDebugBox->box(FL_FLAT_BOX);
 	Fl_Box *lsbox = new Fl_Box(LARGHEZZA_NOME_NODO, 0, LARGHEZZA_LAST_SEEN, ALTEZZA_CARATTERI, "Last seen");
 	lsbox->box(FL_FLAT_BOX);
 

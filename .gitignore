@@ -5,3 +5,4 @@ Release/
 *.bak
 Pingui.VC.db
 Pingui.depend
+bin/pingui.log

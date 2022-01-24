@@ -336,7 +336,7 @@
 
 1641825721 c:\sviluppo\pingui-main\src\movingwindow.h
 
-1641906370 source:c:\sviluppo\pingui\src\main.cpp
+1642089641 source:c:\sviluppo\pingui\src\main.cpp
 	<winsock2.h>
 	<iphlpapi.h>
 	<icmpapi.h>
@@ -445,11 +445,23 @@
 	<process.h>
 	<process.h>
 
-1641894709 c:\sviluppo\pingui\src\movingwindow.h
+1643016885 c:\sviluppo\pingui\src\movingwindow.h
+	<FL/Fl_Button.h>
+	<FL/Fl_Pixmap.h>
+	"icon.h"
 
-1641910195 c:\sviluppo\pingui\src\nodemanager.h
+1641912273 c:\sviluppo\pingui\src\nodemanager.h
 	<string>
 	<vector>
 	<fstream>
 	<sstream>
+
+1637312255 c:\sviluppo\pingui\inc\\fl\fl_button.h
+	"Fl_Widget.H"
+
+1641915346 c:\sviluppo\pingui\src\icon.h
+
+1637312255 c:\sviluppo\pingui\inc\\fl\fl_pixmap.h
+	"Fl_Image.H"
+	"x.H"
 

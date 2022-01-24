@@ -29,7 +29,7 @@ struct NodeStatus
 	unsigned cyclesNotReplying;
 	bool replied;
 
-	NodeStatus(const int _id, const std::string& _ip) : id(_id), ip(_ip), nodeName(""), status(DOWN), cyclesNotReplying(0), replied(false) {}
+	NodeStatus(const int _id, const std::string& _ip, const std::string& _nodeName = "") : id(_id), ip(_ip), nodeName(_nodeName), status(DOWN), cyclesNotReplying(0), replied(false) {}
 };
 
 std::vector<NodeStatus> nodeList;
@@ -143,20 +143,20 @@ extern "C" void* thSleep60(void* p)
 	return 0L;
 }
 
-void refreshAll()
-{
-	for (unsigned i = 0; i < nodeList.size(); i++)
-	{
-		fl_create_thread(prime_thread, thPingNode, (void *)&nodeList[i]);
-	}
-	// lancia un thread che ogni 60 secondi richiama il refreshAll
-
-	fl_create_thread(prime_thread, thSleep60, NULL);
-}
 
 void refreshSingle(const unsigned _index)
 {
 	fl_create_thread(prime_thread, thPingNode, (void *)&nodeList[_index]);
+}
+
+
+void refreshAll()
+{
+	for (unsigned i = 0; i < nodeList.size(); i++)
+		refreshSingle(i);
+
+	// launch a thread that after SECONDS_PER_CYCLE seconds recalls the refreshAll function
+	fl_create_thread(prime_thread, thSleep60, NULL);
 }
 
 bool isNotAlnum(unsigned char c)
@@ -206,6 +206,11 @@ bool InitNodesFromConf()
 			}
 		}
 	}
+	return true;
+}
+
+bool SaveNodesToConf()
+{
 	return true;
 }
 
