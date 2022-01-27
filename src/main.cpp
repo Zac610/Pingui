@@ -1,8 +1,10 @@
-#include <winsock2.h>
-#include <iphlpapi.h>
-#include <icmpapi.h>
-#include <WS2tcpip.h>
-#include <wspiapi.h>
+#ifdef WINDOWS
+#include <winsock2.H>
+#include <iphlpapi.H>
+#include <icmpapi.H>
+#include <WS2tcpip.H>
+#include <wspiapi.H>
+#endif // WINDOWS
 
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
