@@ -1,8 +1,8 @@
 #ifndef _MOVINGWINDOW_H_
 #define _MOVINGWINDOW_H_
 
-#include <FL/Fl_Button.h>
-#include <FL/Fl_Pixmap.h>
+#include <FL/Fl_Button.H>
+#include <FL/Fl_Pixmap.H>
 
 #include "icon.h"
 
