@@ -7,6 +7,7 @@
 #include <sstream>
 
 #include "threads.h"
+#include "NetPlatform.h"
 
 #define SECONDS_PER_CYCLE 10
 
@@ -33,11 +34,11 @@ std::vector<NodeStatus> nodeList;
 extern "C" void* thPingNode(void *p)
 {
 	NodeStatus *pNode = (NodeStatus*)p;
-	pNode->nodeName = pNode->ip;
+	//pNode->nodeName = pNode->ip;
 
-	Status nodeStatus = pingNode(pNode->ip);
+	NStatus nodeStatus = pingNode(pNode->ip);
 	pNode->status = nodeStatus;
-	if (nodeStatus == Status::UP)
+	if (nodeStatus == NStatus::UP)
 	{
 		std::string nodeName;
 		if (getNameFromIp(pNode->ip, nodeName))
@@ -79,6 +80,11 @@ bool isNotAlnum(unsigned char c)
 	return (c<' ' || c>'~');
 }
 
+void writeLog(const std::string &_msg)
+{
+	std::string fullLine = std::string("echo ")+ _msg + std::string(" >> pingui.log");
+	system(fullLine.c_str());
+}
 
 bool InitNodesFromConf()
 {
@@ -115,7 +121,10 @@ bool InitNodesFromConf()
 					}
 					str.erase(0, pos); // remove BOM chars, if any
 
-					NodeStatus node(nodeList.size(), str);
+					std::string name = "";
+					iss >> name;
+
+					NodeStatus node(nodeList.size(), str, name);
 					nodeList.push_back(node);
 				}
 			}

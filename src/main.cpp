@@ -1,11 +1,3 @@
-#ifdef WINDOWS
-#include <winsock2.H>
-#include <iphlpapi.H>
-#include <icmpapi.H>
-#include <WS2tcpip.H>
-#include <wspiapi.H>
-#endif // WINDOWS
-
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Box.H>
@@ -77,11 +69,11 @@ void initLog()
 	system("echo Start Pingui.exe 1 > pingui.log");
 }
 
-void writeLog(const string &_msg)
-{
-	string fullLine = string("echo ")+ _msg + string(" >> pingui.log");
-	system(fullLine.c_str());
-}
+//void writeLog(const string &_msg)
+//{
+//	string fullLine = string("echo ")+ _msg + string(" >> pingui.log");
+//	system(fullLine.c_str());
+//}
 
 
 
@@ -134,7 +126,7 @@ void updateGui(void* userdata)
 
 	Fl_Color color = FL_RED;
 	string stringPassed = "now";
-	if (nodeStatus->status == Status::UP)
+	if (nodeStatus->status == NStatus::UP)
 	{
 		color = FL_GREEN;
 		nodeStatus->cyclesNotReplying = 0;

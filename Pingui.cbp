@@ -15,7 +15,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-fpermissive" />
-					<Add option="-DPLATFORM $(PLATFORM)" />
+					<Add option="-D$(PLATFORM)" />
 					<Add directory="inc/" />
 				</Compiler>
 				<Linker>
@@ -44,6 +44,7 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-D$(PLATFORM)" />
 					<Add directory="C:/Sviluppo/Pingui/inc/" />
 				</Compiler>
 				<Linker>
@@ -81,7 +82,7 @@
 				<Compiler>
 					<Add option="-fpermissive" />
 					<Add option="-DHAVE_PTHREAD_H" />
-					<Add option="-DPLATFORM $(PLATFORM)" />
+					<Add option="-D$(PLATFORM)" />
 					<Add directory="inc/" />
 				</Compiler>
 				<Linker>
