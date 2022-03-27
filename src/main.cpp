@@ -134,7 +134,7 @@ void updateGui(void* userdata)
 
 	Fl_Color color = FL_RED;
 	string stringPassed = "now";
-	if (nodeStatus->status == Status::UP)
+	if (nodeStatus->status == NStatus::UP)
 	{
 		color = FL_GREEN;
 		nodeStatus->cyclesNotReplying = 0;
@@ -176,9 +176,9 @@ static int my_handler(int event)
 	return 0;
 }
 
-//int main(int v, char* a)
+int main(int v, char* a)
 //int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
-int main(int argc, TCHAR* argv[])
+//int main(int argc, TCHAR* argv[])
 {
 	initLog();
 

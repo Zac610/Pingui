@@ -5,8 +5,11 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <thread>
+#include <chrono>
 
 #include "threads.h"
+#include "NetPlatform.h"
 
 #define SECONDS_PER_CYCLE 10
 
@@ -35,9 +38,9 @@ extern "C" void* thPingNode(void *p)
 	NodeStatus *pNode = (NodeStatus*)p;
 	pNode->nodeName = pNode->ip;
 
-	Status nodeStatus = pingNode(pNode->ip);
+	NStatus nodeStatus = pingNode(pNode->ip);
 	pNode->status = nodeStatus;
-	if (nodeStatus == Status::UP)
+	if (nodeStatus == NStatus::UP)
 	{
 		std::string nodeName;
 		if (getNameFromIp(pNode->ip, nodeName))
@@ -53,7 +56,8 @@ void refreshAll();
 
 extern "C" void* thSleep60(void* p)
 {
-	Sleep(SECONDS_PER_CYCLE * 1000);
+	//Sleep(SECONDS_PER_CYCLE * 1000);
+	std::this_thread::sleep_for(std::chrono::seconds(SECONDS_PER_CYCLE));
 	refreshAll();
 	return 0L;
 }
