@@ -176,7 +176,7 @@ static int my_handler(int event)
 	return 0;
 }
 
-int main(int v, char* a)
+int main(int v, char* a[])
 //int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
 //int main(int argc, TCHAR* argv[])
 {
@@ -209,11 +209,11 @@ int main(int v, char* a)
 
 	mainWindow->end();
 	mainWindow->show();
-
+#ifdef WINDOWS
 	HWND hWnd = fl_xid(mainWindow);
 	ShowWindow(hWnd, SW_SHOWNORMAL);
 	SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-
+#endif // WINDOWS
 	Fl::lock();
 	return Fl::run();
 }

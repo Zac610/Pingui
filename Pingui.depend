@@ -15,6 +15,8 @@
 	<vector>
 	"threads.h"
 
+1630683130 "
+
 1629984823 c:\users\slocascio\progetti\pingui\inc\\fl\fl.h
 	<FL/Fl_Export.H>
 	<FL/Fl_Cairo.H>
@@ -24,11 +26,15 @@
 	<FL/Fl.H>
 	<FL/Fl_Window.H>
 
+1637312255 dow.H>
+
 1629984823 c:\users\slocascio\progetti\pingui\inc\\fl\fl_export.h
 
 1629984823 c:\users\slocascio\progetti\pingui\inc\\fl\fl_cairo.h
 	<FL/Fl_Export.H>
 	<cairo.h>
+
+1643017496 
 
 1629984823 c:\users\slocascio\progetti\pingui\inc\\fl\fl_utf8.h
 	"Fl_Export.H"
@@ -48,12 +54,16 @@
 	<X11/Xlib.h>
 	<locale.h>
 
+1637312255 
+
 1629984823 c:\users\slocascio\progetti\pingui\inc\\fl\fl_types.h
 
 1629984823 c:\users\slocascio\progetti\pingui\inc\\fl\enumerations.h
 	<FL/abi-version.h>
 	"Fl_Export.H"
 	"fl_types.h"
+
+1637312255 h"
 
 1629984823 c:\users\slocascio\progetti\pingui\inc\\fl\abi-version.h
 
@@ -66,6 +76,8 @@
 1629984823 c:\users\slocascio\progetti\pingui\inc\\fl\fl_group.h
 	"Fl_Widget.H"
 
+1637312255 .H"
+
 1629984823 c:\users\slocascio\progetti\pingui\inc\\fl\fl_widget.h
 	"Enumerations.H"
 	<stdint.h>
@@ -73,6 +85,8 @@
 
 1629984823 c:\users\slocascio\progetti\pingui\inc\\fl\fl_bitmap.h
 	"Fl_Image.H"
+
+1637312255 H"
 
 1629984823 c:\users\slocascio\progetti\pingui\inc\\fl\fl_image.h
 	"Enumerations.H"
@@ -100,14 +114,20 @@
 	"Fl_Window.H"
 	"../src/Fl_Font.H"
 
+1637312255 _Font.H"
+
 1629984823 c:\users\slocascio\progetti\pingui\inc\\fl\fl_ask.h
 	"Enumerations.H"
+
+1637312255 ons.H"
 
 1629984824 c:\users\slocascio\progetti\pingui\src\threads.h
 	<pthread.h>
 	<windows.h>
 	<process.h>
 	<process.h>
+
+1637312256 >
 
 1630683130 source:c:\users\slocascio\pingui\src\main.cpp
 	<winsock2.h>
@@ -223,6 +243,8 @@
 	<FL/Fl.H>
 	<FL/Fl_Widget.H>
 
+1621074139 get.H>
+
 1641825746 source:c:\sviluppo\pingui-main\src\main.cpp
 	<winsock2.h>
 	<iphlpapi.h>
@@ -239,6 +261,8 @@
 	<vector>
 	"threads.h"
 	"MovingWindow.h"
+
+1641825746 dow.h"
 
 1631509878 c:\sviluppo\pingui-main\inc\\fl\fl.h
 	<FL/Fl_Export.H>
@@ -350,6 +374,8 @@
 	"threads.h"
 	"MovingWindow.h"
 	"NodeManager.h"
+
+1642089641 er.h"
 
 1637312255 c:\sviluppo\pingui\inc\\fl\fl.h
 	<FL/Fl_Export.H>
@@ -464,4 +490,139 @@
 1637312255 c:\sviluppo\pingui\inc\\fl\fl_pixmap.h
 	"Fl_Image.H"
 	"x.H"
+
+1648495006 source:/home/zac/Progetti/Pingui/src/main.cpp
+	<winsock2.H>
+	<iphlpapi.H>
+	<icmpapi.H>
+	<WS2tcpip.H>
+	<wspiapi.H>
+	<FL/Fl.H>
+	<FL/Fl_Window.H>
+	<FL/Fl_Box.H>
+	<FL/x.H>
+	<FL/fl_ask.H>
+	"threads.h"
+	"MovingWindow.h"
+	"NodeManager.h"
+
+1643193105 /home/zac/Progetti/Pingui/inc//FL/Fl.H
+	<FL/Fl_Export.H>
+	<FL/Fl_Cairo.H>
+	"fl_utf8.h"
+	"Enumerations.H"
+	<stdio.h>
+	<FL/Fl.H>
+	<FL/Fl_Window.H>
+
+1643193105 /home/zac/Progetti/Pingui/inc//FL/Fl_Export.H
+
+1643193105 /home/zac/Progetti/Pingui/inc//FL/Fl_Cairo.H
+	<FL/Fl_Export.H>
+	<cairo.h>
+
+1643193105 /home/zac/Progetti/Pingui/inc//FL/fl_utf8.h
+	"Fl_Export.H"
+	"fl_types.h"
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<locale.h>
+	<ctype.h>
+	<wchar.h>
+	<sys/stat.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<X11/Xlocale.h>
+	<X11/Xlib.h>
+	<locale.h>
+
+1643193105 /home/zac/Progetti/Pingui/inc//FL/fl_types.h
+
+1643193105 /home/zac/Progetti/Pingui/inc//FL/Enumerations.H
+	<FL/abi-version.h>
+	"Fl_Export.H"
+	"fl_types.h"
+
+1643193105 /home/zac/Progetti/Pingui/inc//FL/abi-version.h
+
+1643193105 /home/zac/Progetti/Pingui/inc//FL/Fl_Window.H
+	<windows.h>
+	"Fl_Group.H"
+	"Fl_Bitmap.H"
+	<stdlib.h>
+
+1643193105 /home/zac/Progetti/Pingui/inc//FL/Fl_Group.H
+	"Fl_Widget.H"
+
+1643193105 /home/zac/Progetti/Pingui/inc//FL/Fl_Widget.H
+	"Enumerations.H"
+	<stdint.h>
+	<stddef.h>
+
+1643193105 /home/zac/Progetti/Pingui/inc//FL/Fl_Bitmap.H
+	"Fl_Image.H"
+
+1643193105 /home/zac/Progetti/Pingui/inc//FL/Fl_Image.H
+	"Enumerations.H"
+	<stdlib.h>
+
+1643193105 /home/zac/Progetti/Pingui/inc//FL/Fl_Box.H
+	"Fl_Widget.H"
+
+1643193105 /home/zac/Progetti/Pingui/inc//FL/x.H
+	"Enumerations.H"
+	"win32.H"
+	"mac.H"
+	<X11/Xlib.h>
+	<X11/Xutil.h>
+	<X11/Xatom.h>
+	"Fl_Window.H"
+
+1643193105 /home/zac/Progetti/Pingui/inc//FL/win32.H
+	<windows.h>
+	<FL/Fl_Window.H>
+
+1643193105 /home/zac/Progetti/Pingui/inc//FL/mac.H
+	<FL/Fl_Widget.H>
+	<ApplicationServices/ApplicationServices.h>
+	"Fl_Window.H"
+	"../src/Fl_Font.H"
+
+1643193105 /home/zac/Progetti/Pingui/inc//FL/fl_ask.H
+	"Enumerations.H"
+
+1643193105 /home/zac/Progetti/Pingui/src/threads.h
+	<pthread.h>
+	<windows.h>
+	<process.h>
+	<process.h>
+
+1643273882 /home/zac/Progetti/Pingui/src/MovingWindow.h
+	<FL/Fl_Button.H>
+	<FL/Fl_Pixmap.H>
+	"icon.h"
+
+1643193105 /home/zac/Progetti/Pingui/inc//FL/Fl_Button.H
+	"Fl_Widget.H"
+
+1643193105 /home/zac/Progetti/Pingui/inc//FL/Fl_Pixmap.H
+	"Fl_Image.H"
+	"x.H"
+
+1643193105 /home/zac/Progetti/Pingui/src/icon.h
+
+1643280818 /home/zac/Progetti/Pingui/src/NodeManager.h
+	<string>
+	<vector>
+	<fstream>
+	<sstream>
+	<thread>
+	<chrono>
+	"threads.h"
+	"NetPlatform.h"
+
+1643280093 /home/zac/Progetti/Pingui/src/NetPlatform.h
 

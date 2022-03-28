@@ -5,5 +5,5 @@ Release/
 *.bak
 Pingui.VC.db
 Pingui.depend
-bin/pingui.log
+bin/*
 cscope.out
