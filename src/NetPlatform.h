@@ -1,6 +1,13 @@
 #ifndef _NETPLATFORM_H_
 #define _NETPLATFORM_H_
 
+#ifdef msw
+#include <winsock2.H>
+#include <iphlpapi.H>
+#include <icmpapi.H>
+#include <WS2tcpip.H>
+#include <wspiapi.H>
+#endif // WINDOWS
 enum NStatus
 {
 	DOWN,
@@ -10,7 +17,11 @@ enum NStatus
 
 NStatus pingNode(const std::string &_ip)
 {
+<<<<<<< HEAD
 #ifdef PLATFORM_WIN32
+=======
+#ifdef msw
+>>>>>>> main
 	HANDLE hIcmpFile;
 	unsigned long ipaddr = INADDR_NONE;
 	DWORD dwRetVal = 0;
@@ -21,17 +32,17 @@ NStatus pingNode(const std::string &_ip)
 
 	ipaddr = inet_addr(_ip.c_str());
 	if (ipaddr == INADDR_NONE)
-		return Status::DOWN;
+		return NStatus::DOWN;
 
 	hIcmpFile = IcmpCreateFile();
 	if (hIcmpFile == INVALID_HANDLE_VALUE)
-		return Status::DOWN;
+		return NStatus::DOWN;
 
 	// Allocate space for at a single reply
 	ReplySize = sizeof(ICMP_ECHO_REPLY) + sizeof(SendData) + 8;
 	ReplyBuffer = (VOID*)malloc(ReplySize);
 	if (ReplyBuffer == NULL)
-		return Status::DOWN;
+		return NStatus::DOWN;
 
 	dwRetVal = IcmpSendEcho2(hIcmpFile, NULL, NULL, NULL,
 													 ipaddr, SendData, sizeof(SendData), NULL,
@@ -42,31 +53,40 @@ NStatus pingNode(const std::string &_ip)
 		struct in_addr ReplyAddr;
 		ReplyAddr.S_un.S_addr = pEchoReply->Address;
 
-		Status retVal = Status::DOWN;
+		NStatus retVal = NStatus::DOWN;
 		switch (pEchoReply->Status)
 		{
 			case IP_SUCCESS:
-				retVal = Status::UP;
+				retVal = NStatus::UP;
 				break;
 			default:
-				retVal = Status::DOWN;
+				retVal = NStatus::DOWN;
 				break;
 		}
 
 		return retVal;
 	}
 	else
+<<<<<<< HEAD
 		return Status::DOWN;
 #endif // PLATFORM_WIN32
 #ifdef PLATFORM_LINUX
 	return NStatus::DOWN;
 #endif // PLATFORM_LINUX
+=======
+		return NStatus::DOWN;
+#endif
+>>>>>>> main
 }
 
 
 bool getNameFromIp(std::string ip, std::string& name)
 {
+<<<<<<< HEAD
 #ifdef PLATFORM_WIN32
+=======
+#ifdef msw
+>>>>>>> main
 	struct addrinfo    hints;
 	struct addrinfo* res = 0;
 	int       status;
@@ -92,7 +112,11 @@ bool getNameFromIp(std::string ip, std::string& name)
 		return false;
 
 	name = name.substr(0, name.find('.'));
+<<<<<<< HEAD
 #endif // PLATFORM_WIN32
+=======
+#endif
+>>>>>>> main
 	return true;
 }
 
