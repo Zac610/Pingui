@@ -197,7 +197,6 @@ int main(int v, char* a[])
 	Fl_Box *lsbox = new Fl_Box(LARGHEZZA_NOME_NODO, 0, LARGHEZZA_LAST_SEEN, ALTEZZA_CARATTERI, "Last seen");
 	lsbox->box(FL_FLAT_BOX);
 
-	refreshAll();
 
 	mainWindow->end();
 	mainWindow->show();
@@ -207,5 +206,6 @@ int main(int v, char* a[])
 	SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 #endif // WINDOWS
 	Fl::lock();
+	refreshAll();
 	return Fl::run();
 }
