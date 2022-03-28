@@ -34,7 +34,7 @@
 	<FL/Fl_Export.H>
 	<cairo.h>
 
-1643017496 
+1637312255 
 
 1629984823 c:\users\slocascio\progetti\pingui\inc\\fl\fl_utf8.h
 	"Fl_Export.H"
@@ -53,8 +53,6 @@
 	<X11/Xlocale.h>
 	<X11/Xlib.h>
 	<locale.h>
-
-1637312255 
 
 1629984823 c:\users\slocascio\progetti\pingui\inc\\fl\fl_types.h
 
@@ -491,12 +489,7 @@
 	"Fl_Image.H"
 	"x.H"
 
-1648495006 source:/home/zac/Progetti/Pingui/src/main.cpp
-	<winsock2.H>
-	<iphlpapi.H>
-	<icmpapi.H>
-	<WS2tcpip.H>
-	<wspiapi.H>
+1648496537 source:/home/zac/Progetti/Pingui/src/main.cpp
 	<FL/Fl.H>
 	<FL/Fl_Window.H>
 	<FL/Fl_Box.H>
@@ -600,7 +593,7 @@
 	<process.h>
 	<process.h>
 
-1643273882 /home/zac/Progetti/Pingui/src/MovingWindow.h
+1648496537 /home/zac/Progetti/Pingui/src/MovingWindow.h
 	<FL/Fl_Button.H>
 	<FL/Fl_Pixmap.H>
 	"icon.h"
@@ -614,7 +607,7 @@
 
 1643193105 /home/zac/Progetti/Pingui/src/icon.h
 
-1643280818 /home/zac/Progetti/Pingui/src/NodeManager.h
+1648496741 /home/zac/Progetti/Pingui/src/NodeManager.h
 	<string>
 	<vector>
 	<fstream>
@@ -624,5 +617,10 @@
 	"threads.h"
 	"NetPlatform.h"
 
-1643280093 /home/zac/Progetti/Pingui/src/NetPlatform.h
+1648496872 /home/zac/Progetti/Pingui/src/NetPlatform.h
+	<winsock2.H>
+	<iphlpapi.H>
+	<icmpapi.H>
+	<WS2tcpip.H>
+	<wspiapi.H>
 

@@ -8,11 +8,7 @@
 #include <thread>
 #include <chrono>
 
-<<<<<<< HEAD
 #include "threads.h"
-=======
-#include "threads.h"
->>>>>>> main
 #include "NetPlatform.h"
 
 #define SECONDS_PER_CYCLE 10

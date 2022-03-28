@@ -15,11 +15,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-fpermissive" />
-<<<<<<< HEAD
 					<Add option="-DPLATFORM_WIN32" />
-=======
-					<Add option="-D$(PLATFORM)" />
->>>>>>> main
 					<Add directory="inc/" />
 				</Compiler>
 				<Linker>
@@ -48,11 +44,7 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-<<<<<<< HEAD
 					<Add option="-DPLATFORM_WIN32" />
-=======
-					<Add option="-D$(PLATFORM)" />
->>>>>>> main
 					<Add directory="C:/Sviluppo/Pingui/inc/" />
 				</Compiler>
 				<Linker>
@@ -90,27 +82,22 @@
 				<Compiler>
 					<Add option="-fpermissive" />
 					<Add option="-DHAVE_PTHREAD_H" />
-<<<<<<< HEAD
 					<Add option="-DPLATFORM_LINUX" />
-=======
-					<Add option="-D$(PLATFORM)" />
->>>>>>> main
 					<Add directory="inc/" />
 				</Compiler>
 				<Linker>
-					<Add library="lib/libfltk.a" />
-					<Add library="lib/libfltk_forms.a" />
-					<Add library="lib/libfltk_gl.a" />
-					<Add library="lib/libfltk_images.a" />
-					<Add library="lib/libfltk_jpeg.a" />
-					<Add library="lib/libfltk_png.a" />
-					<Add library="lib/libfltk_z.a" />
-					<Add library="C:/Program Files/CodeBlocks/MinGW/x86_64-w64-mingw32/lib/libiphlpapi.a" />
-					<Add library="../../../../Program Files/CodeBlocks/MinGW/x86_64-w64-mingw32/lib/libws2_32.a" />
-					<Add library="C:/Program Files/CodeBlocks/MinGW/x86_64-w64-mingw32/lib/libole32.a" />
-					<Add library="C:/Program Files/CodeBlocks/MinGW/x86_64-w64-mingw32/lib/libuuid.a" />
-					<Add library="C:/Program Files/CodeBlocks/MinGW/x86_64-w64-mingw32/lib/libuser32.a" />
-					<Add library="C:/Program Files/CodeBlocks/MinGW/x86_64-w64-mingw32/lib/libcomctl32.a" />
+					<Add library="/usr/lib/x86_64-linux-gnu/libfltk.a" />
+					<Add library="Xrender" />
+					<Add library="Xext" />
+					<Add library="Xfixes" />
+					<Add library="fontconfig" />
+					<Add library="Xft" />
+					<Add library="Xinerama" />
+					<Add library="pthread" />
+					<Add library="dl" />
+					<Add library="m" />
+					<Add library="X11" />
+					<Add library="Xcursor" />
 					<Add directory="lib/" />
 					<Add directory="C:/Users/slocascio/Progetti/Pingui/lib" />
 				</Linker>

@@ -17,11 +17,7 @@ enum NStatus
 
 NStatus pingNode(const std::string &_ip)
 {
-<<<<<<< HEAD
-#ifdef PLATFORM_WIN32
-=======
 #ifdef msw
->>>>>>> main
 	HANDLE hIcmpFile;
 	unsigned long ipaddr = INADDR_NONE;
 	DWORD dwRetVal = 0;
@@ -67,26 +63,14 @@ NStatus pingNode(const std::string &_ip)
 		return retVal;
 	}
 	else
-<<<<<<< HEAD
-		return Status::DOWN;
-#endif // PLATFORM_WIN32
-#ifdef PLATFORM_LINUX
-	return NStatus::DOWN;
-#endif // PLATFORM_LINUX
-=======
-		return NStatus::DOWN;
 #endif
->>>>>>> main
+		return NStatus::DOWN;
 }
 
 
 bool getNameFromIp(std::string ip, std::string& name)
 {
-<<<<<<< HEAD
-#ifdef PLATFORM_WIN32
-=======
 #ifdef msw
->>>>>>> main
 	struct addrinfo    hints;
 	struct addrinfo* res = 0;
 	int       status;
@@ -112,11 +96,7 @@ bool getNameFromIp(std::string ip, std::string& name)
 		return false;
 
 	name = name.substr(0, name.find('.'));
-<<<<<<< HEAD
-#endif // PLATFORM_WIN32
-=======
 #endif
->>>>>>> main
 	return true;
 }
 
