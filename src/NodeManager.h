@@ -27,7 +27,11 @@ struct NodeStatus
 	unsigned cyclesNotReplying;
 	bool replied;
 
-	NodeStatus(const int _id, const std::string& _ip, const std::string& _nodeName = "") : id(_id), ip(_ip), nodeName(_nodeName), status(DOWN), cyclesNotReplying(0), replied(false) {}
+	NodeStatus(const int _id, const std::string& _ip, const std::string& _nodeName = "") : id(_id), ip(_ip), nodeName(_nodeName), status(DOWN), cyclesNotReplying(0), replied(false)
+	{
+		if (nodeName.empty())
+			nodeName = ip;
+	}
 };
 
 std::vector<NodeStatus> nodeList;
