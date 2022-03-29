@@ -93,7 +93,7 @@ void writeLog(const std::string &_msg)
 	system(fullLine.c_str());
 }
 
-bool InitNodesFromConf()
+bool LoadNodesFromConf()
 {
 	// legge dal file di configurazione gli elementi da monitorare
 	std::ifstream objFile;

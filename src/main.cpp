@@ -160,8 +160,8 @@ static int my_handler(int event)
 {
 	if (event == FL_SHORTCUT)
 	{
-		gDebugBox->label("<esc>");
-
+		string dbgString = "<esc>";
+		gDebugBox->label(dbgString.c_str());
 		return 1; // eat all shortcut keys
 	}
 
@@ -175,7 +175,7 @@ int main(int v, char* a[])
 	initLog();
 
 	//writeLog("bbb"+to_string(23));
-	InitNodesFromConf();
+	LoadNodesFromConf();
 
 	MovingWindow* mainWindow = new MovingWindow(LARGHEZZA_NOME_NODO+LARGHEZZA_LAST_SEEN, nodeList.size() * ALTEZZA_CARATTERI + ALTEZZA_CARATTERI); // la size dipende dal numero di elementi da monitorare recuperati dal file di configurazione
 
@@ -200,11 +200,11 @@ int main(int v, char* a[])
 
 	mainWindow->end();
 	mainWindow->show();
-#ifdef WINDOWS
+#ifdef PLATFORM_WIN32
 	HWND hWnd = fl_xid(mainWindow);
 	ShowWindow(hWnd, SW_SHOWNORMAL);
 	SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-#endif // WINDOWS
+#endif // PLATFORM_WIN32
 	Fl::lock();
 	refreshAll();
 	return Fl::run();

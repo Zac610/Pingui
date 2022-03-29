@@ -1,13 +1,13 @@
 #ifndef _NETPLATFORM_H_
 #define _NETPLATFORM_H_
 
-#ifdef msw
+#ifdef PLATFORM_WIN32
 #include <winsock2.H>
 #include <iphlpapi.H>
 #include <icmpapi.H>
 #include <WS2tcpip.H>
 #include <wspiapi.H>
-#endif // WINDOWS
+#endif // PLATFORM_WIN32
 enum NStatus
 {
 	DOWN,
@@ -17,7 +17,7 @@ enum NStatus
 
 NStatus pingNode(const std::string &_ip)
 {
-#ifdef msw
+#ifdef PLATFORM_WIN32
 	HANDLE hIcmpFile;
 	unsigned long ipaddr = INADDR_NONE;
 	DWORD dwRetVal = 0;
@@ -70,7 +70,7 @@ NStatus pingNode(const std::string &_ip)
 
 bool getNameFromIp(std::string ip, std::string& name)
 {
-#ifdef msw
+#ifdef PLATFORM_WIN32
 	struct addrinfo    hints;
 	struct addrinfo* res = 0;
 	int       status;
