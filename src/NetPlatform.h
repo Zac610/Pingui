@@ -1,6 +1,11 @@
 #ifndef _NETPLATFORM_H_
 #define _NETPLATFORM_H_
 
+#ifdef PLATFORM_LINUX
+#include <arpa/inet.h>
+#include <netdb.h>
+#endif // PLATFORM_LINUX
+
 #ifdef PLATFORM_WIN32
 #include <winsock2.H>
 #include <iphlpapi.H>
@@ -70,7 +75,21 @@ NStatus pingNode(const std::string &_ip)
 
 bool getNameFromIp(std::string ip, std::string& name)
 {
+#ifdef PLATFORM_LINUX
+	struct sockaddr_in sa;
+	char host[NI_MAXHOST];
+
+	memset(&sa, 0, sizeof sa);
+	sa.sin_family = AF_INET;
+
+	inet_pton(AF_INET, ip.c_str(), &sa.sin_addr);
+
+	if (getnameinfo((struct sockaddr*)&sa, sizeof(sa), host, sizeof(host), NULL, 0, NI_NAMEREQD ))
+		return false;
+#endif
+
 #ifdef PLATFORM_WIN32
+	char host[512]/*, port[128]*/;
 	struct addrinfo    hints;
 	struct addrinfo* res = 0;
 	int       status;
@@ -84,19 +103,16 @@ bool getNameFromIp(std::string ip, std::string& name)
 
 	status = getaddrinfo(ip.c_str(), 0, 0, &res);
 
-	char host[512]/*, port[128]*/;
-
 	status = getnameinfo(res->ai_addr, res->ai_addrlen, host, 512, 0, 0, 0);
 
-	name = host;
-
 	freeaddrinfo(res);
+#endif
 
+	name = host;
 	if (name == ip)
 		return false;
 
 	name = name.substr(0, name.find('.'));
-#endif
 	return true;
 }
 

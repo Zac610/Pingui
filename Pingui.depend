@@ -489,7 +489,7 @@
 	"Fl_Image.H"
 	"x.H"
 
-1648496537 source:/home/zac/Progetti/Pingui/src/main.cpp
+1648889537 source:/home/zac/Progetti/Pingui/src/main.cpp
 	<FL/Fl.H>
 	<FL/Fl_Window.H>
 	<FL/Fl_Box.H>
@@ -593,7 +593,7 @@
 	<process.h>
 	<process.h>
 
-1648496537 /home/zac/Progetti/Pingui/src/MovingWindow.h
+1648889749 /home/zac/Progetti/Pingui/src/MovingWindow.h
 	<FL/Fl_Button.H>
 	<FL/Fl_Pixmap.H>
 	"icon.h"
@@ -607,7 +607,7 @@
 
 1643193105 /home/zac/Progetti/Pingui/src/icon.h
 
-1648497745 /home/zac/Progetti/Pingui/src/NodeManager.h
+1648889537 /home/zac/Progetti/Pingui/src/NodeManager.h
 	<string>
 	<vector>
 	<fstream>
@@ -617,7 +617,9 @@
 	"threads.h"
 	"NetPlatform.h"
 
-1648496872 /home/zac/Progetti/Pingui/src/NetPlatform.h
+1648891073 /home/zac/Progetti/Pingui/src/NetPlatform.h
+	<arpa/inet.h>
+	<netdb.h>
 	<winsock2.H>
 	<iphlpapi.H>
 	<icmpapi.H>
