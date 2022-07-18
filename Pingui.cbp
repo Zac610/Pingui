@@ -33,7 +33,6 @@
 					<Add library="C:/Program Files/CodeBlocks/MinGW/x86_64-w64-mingw32/lib/libuser32.a" />
 					<Add library="C:/Program Files/CodeBlocks/MinGW/x86_64-w64-mingw32/lib/libcomctl32.a" />
 					<Add directory="lib/" />
-					<Add directory="C:/Users/slocascio/Progetti/Pingui/lib" />
 				</Linker>
 			</Target>
 			<Target title="Release Win32">
@@ -48,28 +47,20 @@
 					<Add directory="C:/Sviluppo/Pingui/inc/" />
 				</Compiler>
 				<Linker>
-					<Add option="/debug" />
-					<Add library="fltkd.lib" />
-					<Add library="wsock32.lib" />
-					<Add library="comctl32.lib" />
-					<Add library="fltkjpeg.lib" />
-					<Add library="fltkimages.lib" />
-					<Add library="legacy_stdio_definitions.lib" />
-					<Add library="iphlpapi.lib" />
-					<Add library="winmm.lib" />
-					<Add library="kernel32.lib" />
-					<Add library="user32.lib" />
-					<Add library="gdi32.lib" />
-					<Add library="winspool.lib" />
-					<Add library="comdlg32.lib" />
-					<Add library="advapi32.lib" />
-					<Add library="shell32.lib" />
-					<Add library="ole32.lib" />
-					<Add library="oleaut32.lib" />
-					<Add library="uuid.lib" />
-					<Add library="odbc32.lib" />
-					<Add library="odbccp32.lib" />
-					<Add directory="C:/Sviluppo/Pingui/lib/" />
+					<Add library="lib/libfltk.a" />
+					<Add library="lib/libfltk_forms.a" />
+					<Add library="lib/libfltk_gl.a" />
+					<Add library="lib/libfltk_images.a" />
+					<Add library="lib/libfltk_jpeg.a" />
+					<Add library="lib/libfltk_png.a" />
+					<Add library="lib/libfltk_z.a" />
+					<Add library="C:/Program Files/CodeBlocks/MinGW/x86_64-w64-mingw32/lib/libiphlpapi.a" />
+					<Add library="../../../../Program Files/CodeBlocks/MinGW/x86_64-w64-mingw32/lib/libws2_32.a" />
+					<Add library="C:/Program Files/CodeBlocks/MinGW/x86_64-w64-mingw32/lib/libole32.a" />
+					<Add library="C:/Program Files/CodeBlocks/MinGW/x86_64-w64-mingw32/lib/libuuid.a" />
+					<Add library="C:/Program Files/CodeBlocks/MinGW/x86_64-w64-mingw32/lib/libuser32.a" />
+					<Add library="C:/Program Files/CodeBlocks/MinGW/x86_64-w64-mingw32/lib/libcomctl32.a" />
+					<Add directory="lib/" />
 				</Linker>
 			</Target>
 			<Target title="Debug Linux">
@@ -116,6 +107,8 @@
 		<Unit filename="src/icon.h" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/threads.h" />
-		<Extensions />
+		<Extensions>
+			<editor_config active="1" use_tabs="1" tab_indents="1" tab_width="2" indent="2" eol_mode="0" />
+		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
