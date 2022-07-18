@@ -93,16 +93,27 @@ class NodeBox : public Fl_Box
 				case FL_PUSH:
 				{
 					int doubleClick = Fl::event_clicks();
+
+//					string dbgString = "test ";
+//					dbgString += to_string(doubleClick);
+//					gDebugBox->copy_label(dbgString.c_str());redraw();
+
 					if (doubleClick)
+					{
+						string cmdString = "mstsc /v:" + nodeList[m_index].ip;
+						gDebugBox->copy_label(cmdString.c_str());redraw();
+						system(cmdString.c_str());
+					}
+					else
 					{
 						color(FL_YELLOW);
 						refreshSingle(m_index);
 					}
-					else
-					{
-						copy_label(nodeList[m_index].ip.c_str());
-						redraw();
-					}
+				}
+				case FL_ENTER:
+				{
+					copy_label(nodeList[m_index].ip.c_str());
+					redraw();
 				}
 				ret = 1;
 				break;
