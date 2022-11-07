@@ -116,6 +116,4 @@ bool getNameFromIp(std::string ip, std::string& name)
 	return true;
 }
 
-
-
 #endif

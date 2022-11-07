@@ -6,7 +6,7 @@
 
 #include "icon.h"
 
-#define MSG_ABOUT "PinGui v.0.6\nby Sergio Lo Cascio"
+#define MSG_ABOUT "PinGui v.0.7 (RDP)\nby Sergio Lo Cascio"
 
 Fl_Window* gAboutWindow = 0;
 

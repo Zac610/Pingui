@@ -104,6 +104,7 @@
 		<Unit filename="src/MovingWindow.h" />
 		<Unit filename="src/NetPlatform.h" />
 		<Unit filename="src/NodeManager.h" />
+		<Unit filename="src/SysPlatform.h" />
 		<Unit filename="src/icon.h" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/threads.h" />

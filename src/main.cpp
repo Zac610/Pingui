@@ -4,10 +4,10 @@
 #include <FL/x.H>
 #include <FL/fl_ask.H>
 
-#include "threads.h"
-#include "MovingWindow.h"
 #include "NodeManager.h"
-//#include "icon.h"
+#include "MovingWindow.h"
+#include "threads.h"
+#include "SysPlatform.h"
 
 using namespace std;
 
@@ -66,7 +66,7 @@ string getStringPassed(unsigned int seconds)
 
 void initLog()
 {
-	system("echo Start Pingui.exe 1 > pingui.log");
+	//system("echo Start Pingui.exe 1 > pingui.log");
 }
 
 //void writeLog(const string &_msg)
@@ -95,9 +95,10 @@ class NodeBox : public Fl_Box
 					int doubleClick = Fl::event_clicks();
 					if (doubleClick)
 					{
-						string cmdString = "mstsc /v:" + nodeList[m_index].ip;
+						string paramString = "/v:" + nodeList[m_index].nodeName;
 						//gDebugBox->copy_label(cmdString.c_str());redraw();
-						system(cmdString.c_str());
+						//system(cmdString.c_str());
+						Execute("mstsc", paramString);
 					}
 					else
 					{
