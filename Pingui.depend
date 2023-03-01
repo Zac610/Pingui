@@ -358,7 +358,7 @@
 
 1641825721 c:\sviluppo\pingui-main\src\movingwindow.h
 
-1667584028 source:c:\sviluppo\pingui\src\main.cpp
+1677680931 source:c:\sviluppo\pingui\src\main.cpp
 	<FL/Fl.H>
 	<FL/Fl_Window.H>
 	<FL/Fl_Box.H>
@@ -470,7 +470,7 @@
 	<FL/Fl_Pixmap.H>
 	"icon.h"
 
-1649150093 c:\sviluppo\pingui\src\nodemanager.h
+1677680873 c:\sviluppo\pingui\src\nodemanager.h
 	<string>
 	<vector>
 	<fstream>
@@ -635,5 +635,5 @@
 	<WS2tcpip.H>
 	<wspiapi.H>
 
-1667584559 c:\sviluppo\pingui\src\sysplatform.h
+1667584708 c:\sviluppo\pingui\src\sysplatform.h
 

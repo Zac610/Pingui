@@ -12,7 +12,8 @@
 using namespace std;
 
 #define ALTEZZA_CARATTERI 16
-#define LARGHEZZA_NOME_NODO 120
+#define LARGHEZZA_CAR_NODO 9
+#define MIN_NODENAME_WIDTH 120
 #define LARGHEZZA_LAST_SEEN 120
 
 
@@ -66,15 +67,14 @@ string getStringPassed(unsigned int seconds)
 
 void initLog()
 {
-	//system("echo Start Pingui.exe 1 > pingui.log");
+	system("echo Start Pingui.exe 1 > pingui.log");
 }
 
-//void writeLog(const string &_msg)
-//{
-//	string fullLine = string("echo ")+ _msg + string(" >> pingui.log");
-//	system(fullLine.c_str());
-//}
-
+void writeLog(const string &_msg)
+{
+	string fullLine = string("echo ")+ _msg + string(" >> pingui.log");
+	system(fullLine.c_str());
+}
 
 
 class NodeBox : public Fl_Box
@@ -82,7 +82,7 @@ class NodeBox : public Fl_Box
 	private:
 		unsigned m_index;
 	public:
-		NodeBox(unsigned i) :Fl_Box(0, (i + 1)* ALTEZZA_CARATTERI, LARGHEZZA_NOME_NODO, ALTEZZA_CARATTERI, nodeList[i].ip.c_str()), m_index(i) {}
+		NodeBox(unsigned i, unsigned _nodeBoxWidth) :Fl_Box(0, (i + 1)* ALTEZZA_CARATTERI, _nodeBoxWidth, ALTEZZA_CARATTERI, nodeList[i].ip.c_str()), m_index(i) {}
 
 		int handle(int e)
 		{
@@ -182,27 +182,33 @@ int main(int v, char* a[])
 {
 	initLog();
 
-	//writeLog("bbb"+to_string(23));
-	LoadNodesFromConf();
+	int maxNodeNameSize = LoadNodesFromConf();
+	writeLog("maxNodeNameSize: "+to_string(maxNodeNameSize));
+	int nodeBoxWidth = maxNodeNameSize * LARGHEZZA_CAR_NODO;
+	if (nodeBoxWidth < MIN_NODENAME_WIDTH)
+		nodeBoxWidth = MIN_NODENAME_WIDTH;
 
-	MovingWindow* mainWindow = new MovingWindow(LARGHEZZA_NOME_NODO+LARGHEZZA_LAST_SEEN, nodeList.size() * ALTEZZA_CARATTERI + ALTEZZA_CARATTERI); // la size dipende dal numero di elementi da monitorare recuperati dal file di configurazione
+	writeLog("nodeBoxWidth: "+to_string(nodeBoxWidth));
+
+	MovingWindow* mainWindow = new MovingWindow(nodeBoxWidth+LARGHEZZA_LAST_SEEN, nodeList.size() * ALTEZZA_CARATTERI + ALTEZZA_CARATTERI); // la size dipende dal numero di elementi da monitorare recuperati dal file di configurazione
 
 	for (unsigned i = 0; i < nodeList.size(); i++)
 	{
 		NodeStatusGui nsg;
-		nsg.boxTxt = new NodeBox(i);
+		nsg.boxTxt = new NodeBox(i, nodeBoxWidth);
 		nsg.boxTxt->box(FL_THIN_DOWN_BOX);
 		nsg.boxTxt->color(FL_YELLOW);
-		nsg.lastSeenBox = new Fl_Box(LARGHEZZA_NOME_NODO, (i + 1)* ALTEZZA_CARATTERI, LARGHEZZA_LAST_SEEN, ALTEZZA_CARATTERI, "never");
+		nsg.boxTxt->align(FL_ALIGN_RIGHT | FL_ALIGN_INSIDE);
+		nsg.lastSeenBox = new Fl_Box(nodeBoxWidth, (i + 1)* ALTEZZA_CARATTERI, LARGHEZZA_LAST_SEEN, ALTEZZA_CARATTERI, "never");
 		nsg.lastSeenBox->box(FL_THIN_DOWN_BOX);
 		nodeListGui.push_back(nsg);
 	}
 
 	Fl::add_handler(my_handler);
 
-	gDebugBox = new Fl_Box(0, 0, LARGHEZZA_NOME_NODO, ALTEZZA_CARATTERI, "Node");
+	gDebugBox = new Fl_Box(0, 0, nodeBoxWidth, ALTEZZA_CARATTERI, "Node");
 	gDebugBox->box(FL_FLAT_BOX);
-	Fl_Box *lsbox = new Fl_Box(LARGHEZZA_NOME_NODO, 0, LARGHEZZA_LAST_SEEN, ALTEZZA_CARATTERI, "Last seen");
+	Fl_Box *lsbox = new Fl_Box(nodeBoxWidth, 0, LARGHEZZA_LAST_SEEN, ALTEZZA_CARATTERI, "Last seen");
 	lsbox->box(FL_FLAT_BOX);
 
 

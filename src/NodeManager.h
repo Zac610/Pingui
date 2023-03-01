@@ -87,14 +87,13 @@ bool isNotAlnum(unsigned char c)
 	return (c<' ' || c>'~');
 }
 
-void writeLog(const std::string &_msg)
-{
-	std::string fullLine = std::string("echo ")+ _msg + std::string(" >> pingui.log");
-	system(fullLine.c_str());
-}
+//void writeLog(const std::string &_msg);
 
-bool LoadNodesFromConf()
+
+// Returns the maximum name length of nodes read from conf (or -1 if error)
+int LoadNodesFromConf()
 {
+	int retVal = -1;
 	// legge dal file di configurazione gli elementi da monitorare
 	std::ifstream objFile;
 	try
@@ -105,7 +104,7 @@ bool LoadNodesFromConf()
 	{
 		std::string error = "Pingui.conf" + std::string(" exception: ") + e.what();
 		//OutputManager__WriteLog(E_CONF_FILE_NOT_OK, error);
-		return false;
+		return -1;
 	}
 
 	std::string line;
@@ -131,13 +130,17 @@ bool LoadNodesFromConf()
 					std::string name = "";
 					iss >> name;
 
+					int size = name.size();
+					if (size > retVal)
+						retVal = name.size();
+
 					NodeStatus node(nodeList.size(), str, name);
 					nodeList.push_back(node);
 				}
 			}
 		}
 	}
-	return true;
+	return retVal;
 }
 
 bool SaveNodesToConf()
