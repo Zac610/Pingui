@@ -637,3 +637,143 @@
 
 1667584708 c:\sviluppo\pingui\src\sysplatform.h
 
+1732179163 source:c:\dev\pingui\src\main.cpp
+	<FL/Fl.H>
+	<FL/Fl_Window.H>
+	<FL/Fl_Box.H>
+	<FL/x.H>
+	<FL/fl_ask.H>
+	"NodeManager.h"
+	"MovingWindow.h"
+	"threads.h"
+	"SysPlatform.h"
+
+1732179163 c:\dev\pingui\inc\fl\fl.h
+	<FL/Fl_Export.H>
+	<FL/Fl_Cairo.H>
+	"fl_utf8.h"
+	"Enumerations.H"
+	<stdio.h>
+	<FL/Fl.H>
+	<FL/Fl_Window.H>
+
+1732179163 c:\dev\pingui\inc\fl\fl_export.h
+
+1732179163 c:\dev\pingui\inc\fl\fl_cairo.h
+	<FL/Fl_Export.H>
+	<cairo.h>
+
+1732179163 c:\dev\pingui\inc\fl\fl_utf8.h
+	"Fl_Export.H"
+	"fl_types.h"
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<locale.h>
+	<ctype.h>
+	<wchar.h>
+	<sys/stat.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<X11/Xlocale.h>
+	<X11/Xlib.h>
+	<locale.h>
+
+1732179163 c:\dev\pingui\inc\fl\fl_types.h
+
+1732179163 c:\dev\pingui\inc\fl\enumerations.h
+	<FL/abi-version.h>
+	"Fl_Export.H"
+	"fl_types.h"
+
+1732179163 c:\dev\pingui\inc\fl\abi-version.h
+
+1732179163 c:\dev\pingui\inc\fl\fl_window.h
+	<windows.h>
+	"Fl_Group.H"
+	"Fl_Bitmap.H"
+	<stdlib.h>
+
+1732179163 c:\dev\pingui\inc\fl\fl_group.h
+	"Fl_Widget.H"
+
+1732179163 c:\dev\pingui\inc\fl\fl_widget.h
+	"Enumerations.H"
+	<stdint.h>
+	<stddef.h>
+
+1732179163 c:\dev\pingui\inc\fl\fl_bitmap.h
+	"Fl_Image.H"
+
+1732179163 c:\dev\pingui\inc\fl\fl_image.h
+	"Enumerations.H"
+	<stdlib.h>
+
+1732179163 c:\dev\pingui\inc\fl\fl_box.h
+	"Fl_Widget.H"
+
+1732179163 c:\dev\pingui\inc\fl\x.h
+	"Enumerations.H"
+	"win32.H"
+	"mac.H"
+	<X11/Xlib.h>
+	<X11/Xutil.h>
+	<X11/Xatom.h>
+	"Fl_Window.H"
+
+1732179163 c:\dev\pingui\inc\fl\win32.h
+	<windows.h>
+	<FL/Fl_Window.H>
+
+1732179163 c:\dev\pingui\inc\fl\mac.h
+	<FL/Fl_Widget.H>
+	<ApplicationServices/ApplicationServices.h>
+	"Fl_Window.H"
+	"../src/Fl_Font.H"
+
+1732179163 c:\dev\pingui\inc\fl\fl_ask.h
+	"Enumerations.H"
+
+1732182279 c:\dev\pingui\src\nodemanager.h
+	<string>
+	<vector>
+	<fstream>
+	<sstream>
+	<thread>
+	<chrono>
+	"threads.h"
+	"NetPlatform.h"
+
+1732179163 c:\dev\pingui\src\threads.h
+	<pthread.h>
+	<windows.h>
+	<process.h>
+	<process.h>
+
+1732179163 c:\dev\pingui\src\netplatform.h
+	<arpa/inet.h>
+	<netdb.h>
+	<winsock2.H>
+	<iphlpapi.H>
+	<icmpapi.H>
+	<WS2tcpip.H>
+	<wspiapi.H>
+
+1732179163 c:\dev\pingui\src\movingwindow.h
+	<FL/Fl_Button.H>
+	<FL/Fl_Pixmap.H>
+	"icon.h"
+
+1732179163 c:\dev\pingui\inc\fl\fl_button.h
+	"Fl_Widget.H"
+
+1732179163 c:\dev\pingui\inc\fl\fl_pixmap.h
+	"Fl_Image.H"
+	"x.H"
+
+1732179163 c:\dev\pingui\src\icon.h
+
+1732180512 c:\dev\pingui\src\sysplatform.h
+

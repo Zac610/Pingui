@@ -44,22 +44,23 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-DPLATFORM_WIN32" />
-					<Add directory="C:/Sviluppo/Pingui/inc/" />
+					<Add option="-DWIN32" />
+					<Add directory="inc" />
 				</Compiler>
 				<Linker>
-					<Add library="lib/libfltk.a" />
-					<Add library="lib/libfltk_forms.a" />
-					<Add library="lib/libfltk_gl.a" />
-					<Add library="lib/libfltk_images.a" />
-					<Add library="lib/libfltk_jpeg.a" />
-					<Add library="lib/libfltk_png.a" />
-					<Add library="lib/libfltk_z.a" />
-					<Add library="C:/Program Files/CodeBlocks/MinGW/x86_64-w64-mingw32/lib/libiphlpapi.a" />
-					<Add library="../../../../Program Files/CodeBlocks/MinGW/x86_64-w64-mingw32/lib/libws2_32.a" />
-					<Add library="C:/Program Files/CodeBlocks/MinGW/x86_64-w64-mingw32/lib/libole32.a" />
-					<Add library="C:/Program Files/CodeBlocks/MinGW/x86_64-w64-mingw32/lib/libuuid.a" />
-					<Add library="C:/Program Files/CodeBlocks/MinGW/x86_64-w64-mingw32/lib/libuser32.a" />
-					<Add library="C:/Program Files/CodeBlocks/MinGW/x86_64-w64-mingw32/lib/libcomctl32.a" />
+					<Add library="lib/fltk/libfltk.a" />
+					<Add library="lib/fltk/libfltk_forms.a" />
+					<Add library="lib/fltk/libfltk_gl.a" />
+					<Add library="lib/fltk/libfltk_images.a" />
+					<Add library="lib/fltk/libfltk_jpeg.a" />
+					<Add library="lib/fltk/libfltk_png.a" />
+					<Add library="lib/fltk/libfltk_z.a" />
+					<Add library="lib/mingw/libiphlpapi.a" />
+					<Add library="lib/mingw/libws2_32.a" />
+					<Add library="lib/mingw/libole32.a" />
+					<Add library="lib/mingw/libuuid.a" />
+					<Add library="lib/mingw/libuser32.a" />
+					<Add library="lib/mingw/libcomctl32.a" />
 					<Add directory="lib/" />
 				</Linker>
 			</Target>

@@ -23,7 +23,7 @@ void Execute(const std::string &_cmd, const std::string &_param)
 
   // start the program up
   CreateProcess( NULL,   // the path
-    cmdFull.c_str(),        // Command line
+    (char *)cmdFull.c_str(),        // Command line
     NULL,           // Process handle not inheritable
     NULL,           // Thread handle not inheritable
     FALSE,          // Set handle inheritance to FALSE

@@ -116,27 +116,42 @@ int LoadNodesFromConf()
 			std::string str;
 			if (iss >> str)
 			{
-				if (str[0] != '#') // comment line, ignored
+				// cancella nella line letta tutto quello che c'è a dx del '#'
+				size_t pos = str.find('#');
+				if (pos != std::string::npos)
+					str = str.substr(0, pos);
+
+				std::string ip, name;
+				if (iss >> ip)
 				{
-					unsigned pos = 0;
-					while (isNotAlnum(str[pos]))
-					{
-						pos++;
-						if (pos >= str.length())
-							break;
-					}
-					str.erase(0, pos); // remove BOM chars, if any
-
-					std::string name = "";
-					iss >> name;
-
-					int size = name.size();
-					if (size > retVal)
-						retVal = name.size();
-
+					std::getline(iss, name); // Ottieni il nome completo
+					// Stampa l'output
+					//std::cout << "IP: " << ip << " - Nome: " << name << std::endl;
 					NodeStatus node(nodeList.size(), str, name);
 					nodeList.push_back(node);
-				}
+        }
+
+//				if (str[0] != '#') // comment line, ignored
+//				{
+//					unsigned pos = 0;
+//					while (isNotAlnum(str[pos]))
+//					{
+//						pos++;
+//						if (pos >= str.length())
+//							break;
+//					}
+//					str.erase(0, pos); // remove BOM chars, if any
+//
+//					std::string name = "";
+//					iss >> name;
+//
+//					int size = name.size();
+//					if (size > retVal)
+//						retVal = name.size();
+
+//					NodeStatus node(nodeList.size(), str, name);
+//					nodeList.push_back(node);
+				//}
 			}
 		}
 	}
